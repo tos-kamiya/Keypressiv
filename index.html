@@ -48,7 +48,7 @@
                 doc['zone'].html = mk
                 for script in scripts:
                     exec(script,globals())
-                prettyPrint()
+                prettyPrint() # optional, google-code-prettify
             
             pages = read_pages("presentation.md")
             cur_page_index = [0]
