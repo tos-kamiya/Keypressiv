@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/flowtype.js"></script>
+        <script src="brython/brython.js"></script>
+        <link rel="stylesheet" href="css/html5reset.css">
+         
+        <link rel="stylesheet" href="css/fontsettings.css">
+        <script type="text/javascript">
+            $(function() {
+                brython();
+                $('body').flowtype();
+            });
+        </script>
+
+        <!-- Optional: google-code-prettify, a syntax highlighter -->
+        <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+
+        <!-- Optional: title of slide -->
+        <title></title>
+    </head>
+    <body>
+        <div id='zone'>
+        </div>
+        <script type="text/python">
+            import markdown
+
+            def read_pages(presentation_file):
+                lines = open(presentation_file).readlines()
+                pages = []
+                pls = []
+                for L in lines:
+                    if L.startswith("!SLIDE"):
+                        if pls:
+                            pages.append('\n'.join(pls))
+                        pls = []
+                    else:
+                        pls.append(L)
+                if pls:
+                    pages.append('\n'.join(pls))
+                return pages
+            
+            def show_page(page_text):
+                mk, scripts = markdown.mark(page_text)
+                doc['zone'].html = mk
+                for script in scripts:
+                    exec(script,globals())
+                prettyPrint()
+            
+            pages = read_pages("presentation.md")
+            cur_page_index = [0]
+            cur_typing_number = [0]
+
+            show_page(pages[0])
+
+            def do_keydown(e):
+                kc = e.keyCode
+                if 37 <= kc <= 40:
+                    cur_typing_number[0] = 0
+                    i = cur_page_index[0]
+                    s = len(pages)
+                    if kc in (37, 38):
+                        i -= 1
+                    elif kc in (39, 40):
+                        i += 1
+                    i = max(0, min(i, s - 1))
+                    show_page(pages[i])
+                    cur_page_index[0] = i
+                elif 48 <= kc <= 57:
+                    cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 48)
+                elif 96 <= kc <= 105:
+                    cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 96)
+                elif kc == 13:
+                    print("kc=%s" % kc)
+                    i = cur_typing_number[0] - 1
+                    s = len(pages)
+                    i = max(0, min(i, s - 1))
+                    show_page(pages[i])
+                    cur_page_index[0] = i
+                    cur_typing_number[0] = 0
+            doc.bind('keydown', do_keydown)
+        </script>
+    </body>
+</html>
+
