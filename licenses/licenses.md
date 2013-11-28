@@ -21,8 +21,3 @@ The MIT License
 ## Google-code-prettify 4-Mar-2013
 https://code.google.com/p/google-code-prettify/
 Apache License 2.0
-
-## Play_of_fireworks_and_night_scenes_in_Hakodate.jpg
-http://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Play_of_fireworks_and_night_scenes_in_Hakodate.jpg
-GNU Free Documentation License) 1.2 / Cc-by-sa-3.0,2.5,2.0,1.0
-
