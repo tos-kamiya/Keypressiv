@@ -1,5 +1,5 @@
 ## Keypressive
-https://github.com/tos-kamiya/keypressive
+https://github.com/tos-kamiya/Keypressive
 The MIT License
 
 ## Brython 1.2-20131109-201900
