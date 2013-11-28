@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/flowtype.js"></script>
+        <script src="brython/brython.js"></script>
+        <link rel="stylesheet" href="css/html5reset.css">
+         
+        <link rel="stylesheet" href="css/fontsettings.css">
+        <script type="text/javascript">
+            $(function() {
+                brython();
+                $('body').flowtype();
+            });
+        </script>
+        <style>
+            hr.pagebreak {
+                page-break-after: always;
+            }
+        </style>
+
+        <!-- Optional: google-code-prettify, a syntax highlighter -->
+        <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+
+        <!-- Optional: title of slide -->
+        <title></title>
+    </head>
+    <body>
+        <div id='zone'>
+        </div>
+        <script type="text/python">
+            import markdown
+
+            def load_pages(presentation_file):
+                lines = open(presentation_file).readlines()
+                pages = []
+                pls = []
+                for L in lines:
+                    if L.startswith("!SLIDE"):
+                        if pls:
+                            pages.append('\n'.join(pls))
+                        pls = []
+                    else:
+                        pls.append(L)
+                if pls:
+                    pages.append('\n'.join(pls))
+
+                mks = [markdown.mark(pt)[0] for pt in pages]            
+                doc['zone'].html = """<hr class="pagebreak"/>""".join(mks)
+                prettyPrint() # optional, google-code-prettify
+            
+            pages = load_pages("presentation.md")
+        </script>
+    </body>
+</html>
+

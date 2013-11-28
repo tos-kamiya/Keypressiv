@@ -12,7 +12,7 @@
 
 !SLIDE
 
-## The keypressive is...
+## Keypressive is...
 
 * A [Keydown](https://github.com/infews/keydown)-inspired presentation tool.
 * Use [Markdown](http://daringfireball.net/projects/markdown/) and HTML markup to describe slide pages.
@@ -30,8 +30,12 @@
   $ cd (presentation.md's directory)
   $ python -m SimpleHTTPServer
 </pre>
+(3) Open it with a web browser, e.g.,:
+open an URL **http://localhost:8000**
 <br/>
-(3) Open an URL **http://localhost:8000** with a web brower 
+<br/>
+(4') A handout is shown in **handout.html**, e.g.:
+open an URL **http://localhost:8000/handout.html**
 
 !SLIDE
 
@@ -65,6 +69,55 @@
 
 * in a size-fixed manner
 <img style="width:320px;" src="/img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
+
+!SLIDE
+
+## Table
+
+* A table with CSS3
+
+<!-- ref: http://stackoverflow.com/questions/4932181/rounded-table-corners-css-only -->
+<style>
+table.roundcorner { 
+border: 2px solid #ddd;
+border-collapse: separate;
+border-left: 0;
+border-radius: 8px;
+border-spacing: 0px;
+}
+table.roundcorner thead {
+display: table-header-group;
+border-color: inherit;
+border-collapse: separate;
+}
+table.roundcorner tr {
+display: table-row;
+border-color: inherit;
+}
+table.roundcorner th, table.roundcorner td {
+padding: 5px 4px 6px 4px;
+border-left: 2px solid #ddd;
+}
+table.roundcorner td {
+border-top: 2px solid #ddd;   
+}
+table.roundcorner thead:first-child tr:first-child th:first-child, table.roundcorner tbody:first-child tr:first-child td:first-child {
+border-radius: 8px 0 0 0;
+}
+table.roundcorner thead:last-child tr:last-child th:first-child, table.roundcorner tbody:last-child tr:last-child td:first-child {
+border-radius: 0 0 0 8px;
+}
+</style>
+
+<table class="roundcorner">
+<thead>
+<tr><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>...</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>- </td><td>Programming I</td><td>-</td><td></td></tr>
+<tr><td>2</td><td>Math</td><td>Algorithm I</td><td>PE</td><td></td></tr>
+</tbody>
+</table>
 
 !SLIDE
 

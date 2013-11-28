@@ -12,32 +12,39 @@
 * Thanks to Giovanni Difeterici (http://www.gdifeterici.com/)
 */
 
+/* modified by Toshihiro Kamiya 2013-11-27 */
+
 (function($) {
    $.fn.flowtype = function(options) {
 
 // Establish default settings/variables
 // ====================================
       var settings = $.extend({
-         maximum   : 9999,
-         minimum   : 1,
+         minimum   : 10,
          maxFont   : 9999,
          minFont   : 1,
          fontRatio : 35,
-         lineRatio : 1.45
+         lineRatio : 1.45,
+         aspectRatio: 0.75
       }, options),
 
 // Do the magic math
 // =================
       changes = function(el) {
          var $el = $(el),
-            elw = $el.width(),
-            width = elw > settings.maximum ? settings.maximum : elw < settings.minimum ? settings.minimum : elw,
+		    elh = $(window).height(),
+		    elaw = $(window).width(),
+            elw = elaw * settings.aspectRatio > elh ? (elh / settings.aspectRatio) : elaw,
+            paddingw = elw < elaw ? (elaw - elw) * 0.5 : 0,
+            width = elw < settings.minimum ? settings.minimum : elw,
             fontBase = width / settings.fontRatio,
             fontSize = fontBase > settings.maxFont ? settings.maxFont : fontBase < settings.minFont ? settings.minFont : fontBase;
 
          $el.css({
             'font-size'   : fontSize + 'px',
-            'line-height' : fontSize * settings.lineRatio + 'px'
+            'line-height' : fontSize * settings.lineRatio + 'px',
+            'padding-left' : paddingw + 'px',
+            'padding-right' : paddingw + 'px',
          });
       };
 
