@@ -9,4 +9,4 @@ A keydown-inspired markdown-based presentation tool.
 * Encourage to use markdown mixed with html. Use markdown for smiple formattings. Use html for complicated formattings. 
 
 Read [presentation.md](presentation.md) for usage,
-or see this usage as a [sample presentation](tos-kamiya.github.io/keypressiv/).
+or see this usage as a [sample presentation](http://tos-kamiya.github.io/keypressiv/).
