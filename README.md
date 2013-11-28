@@ -8,4 +8,5 @@ A keydown-inspired markdown-based presentation tool.
 * Easy installation. No installation required in an actual sense.
 * Encourage to use markdown mixed with html. Use markdown for smiple formattings. Use html for complicated formattings. 
 
-See `presentation.md` for usage.
+Read [presentation.md](presentation.md) for usage,
+or see this usage as a [sample presentation](tos-kamiya.github.io/keypressiv/).
