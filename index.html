@@ -74,7 +74,6 @@
                 elif 96 <= kc <= 105:
                     cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 96)
                 elif kc == 13:
-                    print("kc=%s" % kc)
                     i = cur_typing_number[0] - 1
                     s = len(pages)
                     i = max(0, min(i, s - 1))
