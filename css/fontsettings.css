@@ -69,6 +69,7 @@ p.listing-indent {
     text-align: right;
     font-size: 1.5em;
     color: #444;
+    /* visibility: hidden; */ /* hide page numbers of all pages. */
 }
 #slidefooter-text {
     text-align: center;
