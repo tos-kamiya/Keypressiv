@@ -20,6 +20,24 @@
                 $(window).resize(function(){ makeBodyFullWindowSize();});
             });
         </script>
+        <style>
+            div#slidefooter-page {
+                position: absolute;
+                left: 80%;
+                bottom: 0;
+                z-index: -2;
+                width: 10%;
+                height:10%;
+            }
+            div#slidefooter-text {
+                position: absolute;
+                left: 20%;
+                bottom: 0;
+                z-index: -2;
+                width: 60%;
+                height:10%;
+            }
+        </style>
 
         <!-- Optional: google-code-prettify, a syntax highlighter -->
         <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
@@ -33,34 +51,27 @@
         </div>
         <script type="text/python">
             import markdown
+            import html
+            from slidelib import read_pages
 
-            def read_pages(presentation_file):
-                lines = open(presentation_file).readlines()
-                pages = []
-                pls = []
-                for L in lines:
-                    if L.startswith("!SLIDE"):
-                        if pls:
-                            pages.append('\n'.join(pls))
-                        pls = []
-                    else:
-                        pls.append(L)
-                if pls:
-                    pages.append('\n'.join(pls))
-                return pages
-            
-            def show_page(page_text):
+            def show_page(page_text, slidefooter):
                 mk, scripts = markdown.mark(page_text)
                 doc['zone'].html = mk
                 for script in scripts:
                     exec(script,globals())
                 prettyPrint() # optional, google-code-prettify
-            
-            pages = read_pages("presentation.md")
+                if slidefooter['text']:
+                    doc['zone'] <= html.DIV(slidefooter['text'], id='slidefooter-text')
+                if slidefooter['page']:
+                    doc['zone'] <= html.DIV(slidefooter['page'], id='slidefooter-page')
+
+            pages, slidefooter = read_pages("presentation.md")
             cur_page_index = [0]
             cur_typing_number = [0]
 
-            show_page(pages[0])
+            i = cur_page_index[0]
+            slidefooter.update({ "page": i + 1 })
+            show_page(pages[i], slidefooter)
 
             def move_page(delta):
                 cur_typing_number[0] = 0
@@ -68,7 +79,8 @@
                 s = len(pages)
                 i += delta
                 i = max(0, min(i, s - 1))
-                show_page(pages[i])
+                slidefooter.update({ "page": i + 1 })
+                show_page(pages[i], slidefooter)
                 cur_page_index[0] = i
 
             def do_keydown(e):

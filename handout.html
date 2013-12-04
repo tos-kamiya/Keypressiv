@@ -32,26 +32,12 @@
         </div>
         <script type="text/python">
             import markdown
+            from slidelib import read_pages
 
-            def load_pages(presentation_file):
-                lines = open(presentation_file).readlines()
-                pages = []
-                pls = []
-                for L in lines:
-                    if L.startswith("!SLIDE"):
-                        if pls:
-                            pages.append('\n'.join(pls))
-                        pls = []
-                    else:
-                        pls.append(L)
-                if pls:
-                    pages.append('\n'.join(pls))
-
-                mks = [markdown.mark(pt)[0] for pt in pages]            
-                doc['zone'].html = """<hr class="pagebreak"/>""".join(mks)
-                prettyPrint() # optional, google-code-prettify
-            
-            pages = load_pages("presentation.md")
+            pages, slidefooter = read_pages("presentation.md")
+            mks = [markdown.mark(pt)[0] for pt in pages]
+            doc['zone'].html = """<hr class="pagebreak"/>""".join(mks)
+            prettyPrint() # optional, google-code-prettify
         </script>
     </body>
 </html>
