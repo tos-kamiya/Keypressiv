@@ -39,10 +39,10 @@ open an URL **http://localhost:8000/handout.html**
 
 !SLIDE
 
-## Controls in Presentation
+## Control Keys in Presentation
 
-* **[&larr;]**, **Swipe right** : previous page
-* **[&rarr;]**, **Swipe left** : next page
+* **[&larr;]** : previous page
+* **[&rarr;]** : next page
 * Number + **[Enter]** : go to the page
 
 !SLIDE
