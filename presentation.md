@@ -26,11 +26,11 @@
 (1) Write slide pages in **presentation.md**
 
 (2) Run a HTTP file server, e.g.,:
-<br/>
 <pre>
   $ cd (presentation.md's directory)
   $ python -m SimpleHTTPServer
 </pre>
+
 (3) Open it with a web browser, e.g.,:
 open an URL **http://localhost:8000**
 <br/>
@@ -40,11 +40,37 @@ open an URL **http://localhost:8000/handout.html**
 
 !SLIDE
 
-## Control Keys in Presentation
+## Controls in Presentation
+
+With either keyboard, mouse, or touch pad.
 
 * **[&larr;]**, **Swipe right** : previous page
 * **[&rarr;]**, **Swipe left** : next page
 * Number + **[Enter]** : go to the page
+
+!SLIDE
+
+## Listings
+
+Both markdown listing and HTML listing can be used.
+
+* Normal
+  + upto 2 levels are supported by default.
+
+<ul>
+<li class="li-ballot-checked">Checked</li>
+<li class="li-ballot">Unchecked</li>
+</ul>
+
+<p class="listing-indent">
+(1) Or user defined listing style
+</p>
+<p>
+(ii) can be used
+</p>
+<p>
+three) if needed.
+</p>
 
 !SLIDE
 
