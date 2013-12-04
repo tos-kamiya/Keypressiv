@@ -41,8 +41,8 @@ open an URL **http://localhost:8000/handout.html**
 
 ## Control Keys in Presentation
 
-* **[&larr;]** : previous page
-* **[&rarr;]** : next page
+* **[&larr;]**, **Swipe right** : previous page
+* **[&rarr;]**, **Swipe left** : next page
 * Number + **[Enter]** : go to the page
 
 !SLIDE
