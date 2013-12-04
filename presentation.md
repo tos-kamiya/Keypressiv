@@ -1,4 +1,6 @@
-!FOOTER_TEXT Kyepression Introduction
+{
+    "footer-text": "Kyepression Introduction"
+}
 !SLIDE
 
 <center>

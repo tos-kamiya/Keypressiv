@@ -53,24 +53,24 @@
             import html
             from slidelib import read_pages
 
-            def show_page(page_data, slidefooter):
+            def show_page(page_data, confing_data):
                 mk, scripts = page_data
                 doc['zone'].html = mk
                 for script in scripts:
                     exec(script, globals())
                 prettyPrint() # optional, google-code-prettify
-                if slidefooter['text']:
-                    doc['zone'] <= html.DIV(slidefooter['text'], id='slidefooter-text')
-                if slidefooter['page']:
-                    doc['zone'] <= html.DIV(slidefooter['page'], id='slidefooter-page')
+                if confing_data['footer-text']:
+                    doc['zone'] <= html.DIV(confing_data['footer-text'], id='slidefooter-text')
+                if confing_data['page']:
+                    doc['zone'] <= html.DIV(confing_data['page'], id='slidefooter-page')
 
-            pages, slidefooter = read_pages("presentation.md")
+            pages, config_data = read_pages("presentation.md")
             cur_page_index = [0]
             cur_typing_number = [0]
 
             i = cur_page_index[0]
-            slidefooter.update({ "page": i + 1 })
-            show_page(pages[i], slidefooter)
+            config_data.update({ "page": i + 1 })
+            show_page(pages[i], config_data)
 
             def move_page(delta):
                 cur_typing_number[0] = 0
@@ -78,8 +78,8 @@
                 s = len(pages)
                 i += delta
                 i = max(0, min(i, s - 1))
-                slidefooter.update({ "page": i + 1 })
-                show_page(pages[i], slidefooter)
+                config_data.update({ "page": i + 1 })
+                show_page(pages[i], config_data)
                 cur_page_index[0] = i
 
             def do_keydown(e):

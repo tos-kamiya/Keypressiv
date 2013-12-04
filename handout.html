@@ -33,7 +33,7 @@
         <script type="text/python">
             from slidelib import read_pages
 
-            page_datas, slidefooter = read_pages("presentation.md")
+            page_datas, config_data = read_pages("presentation.md")
             h = []
             for i, (mk, _) in enumerate(page_datas):
                 h.append(mk)
