@@ -1,3 +1,5 @@
+import markdown
+
 def read_pages(presentation_file):
     lines = open(presentation_file).readlines()
     footer_text = None
@@ -14,6 +16,13 @@ def read_pages(presentation_file):
             pls.append(L)
     if pls:
         pages.append('\n'.join(pls))
+
+    page_datas = []
+    for page in pages:
+        mk, scripts = markdown.mark(page)
+        page_datas.append((mk, scripts))
+
     slidefooter = { 'text': footer_text }
-    return pages, slidefooter
+
+    return page_datas, slidefooter
 

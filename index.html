@@ -50,15 +50,14 @@
         <div id='zone'>
         </div>
         <script type="text/python">
-            import markdown
             import html
             from slidelib import read_pages
 
-            def show_page(page_text, slidefooter):
-                mk, scripts = markdown.mark(page_text)
+            def show_page(page_data, slidefooter):
+                mk, scripts = page_data
                 doc['zone'].html = mk
                 for script in scripts:
-                    exec(script,globals())
+                    exec(script, globals())
                 prettyPrint() # optional, google-code-prettify
                 if slidefooter['text']:
                     doc['zone'] <= html.DIV(slidefooter['text'], id='slidefooter-text')
