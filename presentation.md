@@ -1,8 +1,10 @@
-!FOOTER_TEXT Kyepression Introduction
+{
+    "footer-text": "Kyepression Introduction"
+}
 !SLIDE
 
 <center>
-# Keypressiv Sample Presentation
+# Kyepression Introduction
 </center>
 <br/>
 <center>

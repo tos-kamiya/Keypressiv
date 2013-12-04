@@ -57,6 +57,11 @@ p.listing-indent {
     text-indent: -1em;
 }
 
+.handout-page-num {
+    text-align: right;
+    font-size: 1em;
+}
+
 #zone {
     padding: 2em;
 }
