@@ -2,16 +2,22 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="css/html5reset.css">
+        <link rel="stylesheet" href="css/fontsettings.css">
         <script src="js/jquery.min.js"></script>
         <script src="js/flowtype-mod.js"></script>
+        <script src="js/jquery.hammer.js"></script>
         <script src="brython/brython.js"></script>
-        <link rel="stylesheet" href="css/html5reset.css">
-         
-        <link rel="stylesheet" href="css/fontsettings.css">
         <script type="text/javascript">
             $(function() {
                 brython();
-                $('body').flowtype();
+                $('#zone').flowtype();
+                makeBodyFullWindowSize = function() {
+                    $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
+                };
+                makeBodyFullWindowSize();
+                $(window).resize(function(){ makeBodyFullWindowSize();});
             });
         </script>
 
@@ -56,19 +62,22 @@
 
             show_page(pages[0])
 
+            def move_page(delta):
+                cur_typing_number[0] = 0
+                i = cur_page_index[0]
+                s = len(pages)
+                i += delta
+                i = max(0, min(i, s - 1))
+                show_page(pages[i])
+                cur_page_index[0] = i
+
             def do_keydown(e):
                 kc = e.keyCode
                 if 37 <= kc <= 40:
-                    cur_typing_number[0] = 0
-                    i = cur_page_index[0]
-                    s = len(pages)
                     if kc in (37, 38):
-                        i -= 1
+                        move_page(-1)
                     elif kc in (39, 40):
-                        i += 1
-                    i = max(0, min(i, s - 1))
-                    show_page(pages[i])
-                    cur_page_index[0] = i
+                        move_page(1)
                 elif 48 <= kc <= 57:
                     cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 48)
                 elif 96 <= kc <= 105:
@@ -81,6 +90,21 @@
                     cur_page_index[0] = i
                     cur_typing_number[0] = 0
             doc.bind('keydown', do_keydown)
+        </script>
+        <script>
+            $("body").hammer({ "swipe_velocity": 0.5 })
+                    .on("release swipeleft swiperight", function(ev) {
+                switch(ev.type) {
+                    case 'swipeleft':
+                        move_page(1);
+                        ev.gesture.stopDetect();
+                        break;
+                   case 'swiperight':
+                        move_page(-1);
+                        ev.gesture.stopDetect();
+                        break;
+                }
+            });
         </script>
     </body>
 </html>

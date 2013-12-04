@@ -21,3 +21,7 @@ The MIT License
 ## Google-code-prettify 4-Mar-2013
 https://code.google.com/p/google-code-prettify/
 Apache License 2.0
+
+## Hammer.js 1.0.5
+http://eightmedia.github.io/hammer.js/
+The MIT License
