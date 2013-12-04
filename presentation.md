@@ -1,5 +1,6 @@
 {
-    "footer-text": "Kyepression Introduction"
+    "footer-text": "Kyepression Introduction",
+    "show-footer-in-title-page": false
 }
 !SLIDE
 
@@ -165,9 +166,12 @@ border-radius: 0 0 0 8px;
 <br/>
 <br/>
 <br/>
-<br/>
 <center>
 # Enjoy!
 </center>
+<br/>
+<br/>
+<br/>
+Keypressiv is available in [github.com/tos-kamiya/Keypressiv](https://github.com/tos-kamiya/Keypressiv).
 
 

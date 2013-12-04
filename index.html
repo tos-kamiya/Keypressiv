@@ -99,7 +99,8 @@
                     i = cur_typing_number[0] - 1
                     s = len(pages)
                     i = max(0, min(i, s - 1))
-                    show_page(pages[i])
+                    config_data.update({ "page": i + 1 })
+                    show_page(pages[i], config_data)
                     cur_page_index[0] = i
                     cur_typing_number[0] = 0
             doc.bind('keydown', do_keydown)
