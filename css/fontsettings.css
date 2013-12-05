@@ -57,6 +57,11 @@ p.listing-indent {
     text-indent: -1em;
 }
 
+.handout-page-num {
+    text-align: right;
+    font-size: 1em;
+}
+
 #zone {
     padding: 2em;
 }
@@ -64,6 +69,7 @@ p.listing-indent {
     text-align: right;
     font-size: 1.5em;
     color: #444;
+    /* visibility: hidden; */ /* hide page numbers of all pages. */
 }
 #slidefooter-text {
     text-align: center;

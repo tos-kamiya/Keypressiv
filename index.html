@@ -50,28 +50,29 @@
         <div id='zone'>
         </div>
         <script type="text/python">
-            import markdown
             import html
             from slidelib import read_pages
 
-            def show_page(page_text, slidefooter):
-                mk, scripts = markdown.mark(page_text)
+            def show_page(page_data, confing_data):
+                mk, scripts = page_data
                 doc['zone'].html = mk
                 for script in scripts:
-                    exec(script,globals())
+                    exec(script, globals())
                 prettyPrint() # optional, google-code-prettify
-                if slidefooter['text']:
-                    doc['zone'] <= html.DIV(slidefooter['text'], id='slidefooter-text')
-                if slidefooter['page']:
-                    doc['zone'] <= html.DIV(slidefooter['page'], id='slidefooter-page')
+                page_num = confing_data['page']
+                if page_num > 1 or confing_data.get("show-footer-in-title-page"):
+                    if confing_data.get('footer-text'):
+                        doc['zone'] <= html.DIV(confing_data['footer-text'], id='slidefooter-text')
+                    if page_num:
+                        doc['zone'] <= html.DIV(page_num, id='slidefooter-page')
 
-            pages, slidefooter = read_pages("presentation.md")
+            pages, config_data = read_pages("presentation.md")
             cur_page_index = [0]
             cur_typing_number = [0]
 
             i = cur_page_index[0]
-            slidefooter.update({ "page": i + 1 })
-            show_page(pages[i], slidefooter)
+            config_data.update({ "page": i + 1 })
+            show_page(pages[i], config_data)
 
             def move_page(delta):
                 cur_typing_number[0] = 0
@@ -79,8 +80,8 @@
                 s = len(pages)
                 i += delta
                 i = max(0, min(i, s - 1))
-                slidefooter.update({ "page": i + 1 })
-                show_page(pages[i], slidefooter)
+                config_data.update({ "page": i + 1 })
+                show_page(pages[i], config_data)
                 cur_page_index[0] = i
 
             def do_keydown(e):
@@ -98,7 +99,8 @@
                     i = cur_typing_number[0] - 1
                     s = len(pages)
                     i = max(0, min(i, s - 1))
-                    show_page(pages[i])
+                    config_data.update({ "page": i + 1 })
+                    show_page(pages[i], config_data)
                     cur_page_index[0] = i
                     cur_typing_number[0] = 0
             doc.bind('keydown', do_keydown)

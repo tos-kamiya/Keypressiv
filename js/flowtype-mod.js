@@ -25,7 +25,7 @@
          minFont   : 1,
          fontRatio : 35,
          lineRatio : 1.45,
-         aspectRatio: 0.75
+         aspectRatio: 1.33
       }, options),
 
 // Do the magic math
@@ -34,7 +34,7 @@
          var $el = $(el),
 		    elh = $(window).height(),
 		    elaw = $(window).width(),
-            elw = elaw * settings.aspectRatio > elh ? (elh / settings.aspectRatio) : elaw,
+            elw = elaw > settings.aspectRatio * elh ? (elh * settings.aspectRatio) : elaw,
             paddingw = elw < elaw ? (elaw - elw) * 0.5 : 0,
             width = elw < settings.minimum ? settings.minimum : elw,
             fontBase = width / settings.fontRatio,
