@@ -11,7 +11,7 @@
         <script type="text/javascript">
             $(function() {
                 brython();
-                //$('body').flowtype();
+                $('body').flowtype();
             });
         </script>
         <style>
@@ -31,19 +31,13 @@
         <div id='zone'>
         </div>
         <script type="text/python">
+            import markdown
             from slidelib import read_pages
 
-            page_datas, config_data = read_pages("presentation.md")
-            h = []
-            for i, (mk, _) in enumerate(page_datas):
-                h.append(mk)
-                h.append("""<div class="handout-page-num">%d</div>""" % (i + 1))
-                h.append("""<hr/>""")
-            doc['zone'].html = "".join(h)
+            pages, slidefooter = read_pages("presentation.md")
+            mks = [markdown.mark(pt)[0] for pt in pages]
+            doc['zone'].html = """<hr class="pagebreak"/>""".join(mks)
             prettyPrint() # optional, google-code-prettify
-            for _, scripts in page_datas:
-                for script in scripts:
-                    exec(script, globals())
         </script>
     </body>
 </html>
