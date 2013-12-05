@@ -1,5 +1,5 @@
 {
-    "footer-text": "Kyepression Introduction",
+    "footer-text": "Kyepressiv Introduction",
     "show-footer-in-title-page": false
 }
 !SLIDE
