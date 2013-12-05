@@ -1,11 +1,11 @@
 {
-    "footer-text": "Kyepressiv Introduction",
+    "footer-text": "Keypressiv Introduction",
     "show-footer-in-title-page": false
 }
 !SLIDE
 
 <center>
-# Kyepressiv Introduction
+# Keypressiv Introduction
 </center>
 <br/>
 <center>
