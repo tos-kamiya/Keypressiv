@@ -21,6 +21,8 @@
 * A [Keydown](https://github.com/infews/keydown)-inspired presentation tool.
 * Use [Markdown](http://daringfireball.net/projects/markdown/) and HTML markup to describe slide pages.
 * Fixed aspect ratio. Auto font resizing.
+* Neutral in CSS styles of common elements. No pre-defined themes except for 
+* An animation on page transition.
 
 !SLIDE
 

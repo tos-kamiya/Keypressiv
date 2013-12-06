@@ -5,37 +5,34 @@
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="css/html5reset.css">
         <link rel="stylesheet" href="css/fontsettings.css">
+        <link rel="stylesheet" href="css/animation.css">
         <script src="js/jquery.min.js"></script>
         <script src="js/flowtype-mod.js"></script>
         <script src="js/jquery.hammer.min.js"></script>
+        <script src="js/animation.js"></script>
         <script src="brython/brython.js"></script>
         <script type="text/javascript">
             $(function() {
                 brython();
-                $('#zone').flowtype();
-                makeBodyFullWindowSize = function() {
+                var resizeElements = function() {
                     $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
+                    $('#zone0').flowtype();
+                    $('#zone1').flowtype();
                 };
-                makeBodyFullWindowSize();
-                $(window).resize(function(){ makeBodyFullWindowSize();});
+                resizeElements();
+                $(window).resize(function(){ resizeElements(); });
             });
         </script>
         <style>
             div#slidefooter-page {
-                position: absolute;
-                left: 80%;
+                position: fixed;
                 bottom: 0;
                 z-index: -2;
-                width: 10%;
-                height:10%;
             }
             div#slidefooter-text {
-                position: absolute;
-                left: 20%;
+                position: fixed;
                 bottom: 0;
                 z-index: -2;
-                width: 60%;
-                height:10%;
             }
         </style>
 
@@ -46,43 +43,60 @@
         <!-- Optional: title of slide -->
         <title></title>
     </head>
-    <body>
-        <div id='zone'>
+    <body style="position:relative;overflow:hidden;">
+        <div id="slidefooter-page"></div>
+        <div id="slidefooter-text"></div>
+        <div id='zone0'>
+        </div>
+        <div id='zone1' style="display:none;">
         </div>
         <script type="text/python">
             import html
             from slidelib import read_pages
 
-            def show_page(page_data, confing_data):
+            def draw_page(zone_id, page_data, confing_data):
                 mk, scripts = page_data
-                doc['zone'].html = mk
+                doc[zone_id].html = mk
                 for script in scripts:
                     exec(script, globals())
                 prettyPrint() # optional, google-code-prettify
                 page_num = confing_data['page']
-                if page_num > 1 or confing_data.get("show-footer-in-title-page"):
-                    if confing_data.get('footer-text'):
-                        doc['zone'] <= html.DIV(confing_data['footer-text'], id='slidefooter-text')
-                    if page_num:
-                        doc['zone'] <= html.DIV(page_num, id='slidefooter-page')
+                doc["slidefooter-page"].text = page_num
+                op = 1 if page_num > 1 or confing_data.get("show-footer-in-title-page") else 0
+                doc["slidefooter-text"].style.opacity = doc["slidefooter-page"].style.opacity = op
 
             pages, config_data = read_pages("presentation.md")
+            doc["slidefooter-text"].text = config_data.get("footer-text", "")
+
             cur_page_index = [0]
             cur_typing_number = [0]
+            cur_zone_index = [0]
 
             i = cur_page_index[0]
             config_data.update({ "page": i + 1 })
-            show_page(pages[i], config_data)
+            draw_page('zone%d' % cur_zone_index[0], pages[i], config_data)
 
             def move_page(delta):
+                if delta == 0:
+                    return
                 cur_typing_number[0] = 0
-                i = cur_page_index[0]
+                previ = i = cur_page_index[0]
                 s = len(pages)
                 i += delta
                 i = max(0, min(i, s - 1))
+                if i == previ:
+                    return
                 config_data.update({ "page": i + 1 })
-                show_page(pages[i], config_data)
+                zi = (cur_zone_index[0] + 1) % 2
+                czid = 'zone%d' % cur_zone_index[0]
+                nzid = 'zone%d' % zi
+                draw_page(nzid, pages[i], config_data)
+                if -1 <= delta <= 1:
+                    set_sliding_animation(nzid, czid, ("right" if delta > 0 else "left"))
+                else:
+                    set_no_animation(nzid, czid)
                 cur_page_index[0] = i
+                cur_zone_index[0] = zi
 
             def do_keydown(e):
                 kc = e.keyCode
@@ -99,9 +113,7 @@
                     i = cur_typing_number[0] - 1
                     s = len(pages)
                     i = max(0, min(i, s - 1))
-                    config_data.update({ "page": i + 1 })
-                    show_page(pages[i], config_data)
-                    cur_page_index[0] = i
+                    move_page(i - cur_page_index[0])
                     cur_typing_number[0] = 0
             doc.bind('keydown', do_keydown)
         </script>

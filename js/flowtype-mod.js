@@ -12,7 +12,7 @@
 * Thanks to Giovanni Difeterici (http://www.gdifeterici.com/)
 */
 
-/* modified by Toshihiro Kamiya 2013-11-27 */
+/* modified by Toshihiro Kamiya 2013-11-27, 2013-12-07 */
 
 (function($) {
    $.fn.flowtype = function(options) {
@@ -41,25 +41,18 @@
             fontSize = fontBase > settings.maxFont ? settings.maxFont : fontBase < settings.minFont ? settings.minFont : fontBase;
 
          $el.css({
-            'font-size'   : fontSize + 'px',
-            'line-height' : fontSize * settings.lineRatio + 'px',
-            'padding-left' : paddingw + 'px',
-            'padding-right' : paddingw + 'px',
+            'position': 'absolute',
+            'font-size': fontSize + 'px',
+            'line-height': fontSize * settings.lineRatio + 'px',
+            'padding-left': paddingw + 'px',
+            'padding-right': paddingw + 'px',
+            'width': elw + 'px',
+            'height': '100%',
          });
       };
 
-// Make the magic visible
-// ======================
       return this.each(function() {
-         
-      // Context for resize callback
-         var that = this;
-         
-      // Set changes on load
          changes(this);
-         
-      // Make changes upon resize
-         $(window).resize(function(){changes(that);});
       });
    };
 }(jQuery));

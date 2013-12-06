@@ -70,10 +70,16 @@ p.listing-indent {
     font-size: 1.5em;
     color: #444;
     /* visibility: hidden; */ /* hide page numbers of all pages. */
+    left: 80%;
+    width: 10%;
+    height:10%;
 }
 #slidefooter-text {
     text-align: center;
     font-size: 0.7em;
     color: #444;
+    left: 20%;
+    width: 60%;
+    height:10%;
 }
 
