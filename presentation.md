@@ -16,7 +16,7 @@
 
 !SLIDE
 
-## Keypressive is...
+## Keypressiv is...
 
 * A [Keydown](https://github.com/infews/keydown)-inspired presentation tool.
 * Use [Markdown](http://daringfireball.net/projects/markdown/) and HTML markup to describe slide pages.
@@ -79,16 +79,18 @@ three) if needed.
 
 ## Two-Column Layout
 
-<div style="display:-webkit-box;display:-moz-box;">
-<div style="width:40%;margin:0em e3m;">
+<table border="0">
+<tr>
+<td width="50%">
 ### Left Coumn
 * Some long long long long long long long sentence.
-</div>
-<div style="width:40%;margin:0em e3m;">
+</td>
+<td width="50%">
 ### Right Coumn
 * Another long long long long long long long sentence.
-</div>
-</div>
+</td>
+</tr>
+</table>
 
 !SLIDE
 
