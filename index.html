@@ -18,6 +18,7 @@
                     $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
                     $('#zone0').flowtype();
                     $('#zone1').flowtype();
+                    $('#slidefooter-page,#slidefooter-text').flowtype({ "onlyFontResizing": true });
                 };
                 resizeElements();
                 $(window).resize(function(){ resizeElements(); });
