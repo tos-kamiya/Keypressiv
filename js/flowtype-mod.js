@@ -25,30 +25,38 @@
          minFont   : 1,
          fontRatio : 35,
          lineRatio : 1.45,
-         aspectRatio: 1.33
+         aspectRatio: 1.33,
+         onlyFontResizing: false
       }, options),
 
 // Do the magic math
 // =================
       changes = function(el) {
          var $el = $(el),
-		    elh = $(window).height(),
-		    elaw = $(window).width(),
+            elh = $(window).height(),
+            elaw = $(window).width(),
             elw = elaw > settings.aspectRatio * elh ? (elh * settings.aspectRatio) : elaw,
             paddingw = elw < elaw ? (elaw - elw) * 0.5 : 0,
             width = elw < settings.minimum ? settings.minimum : elw,
             fontBase = width / settings.fontRatio,
             fontSize = fontBase > settings.maxFont ? settings.maxFont : fontBase < settings.minFont ? settings.minFont : fontBase;
 
-         $el.css({
-            'position': 'absolute',
-            'font-size': fontSize + 'px',
-            'line-height': fontSize * settings.lineRatio + 'px',
-            'padding-left': paddingw + 'px',
-            'padding-right': paddingw + 'px',
-            'width': elw + 'px',
-            'height': '100%',
-         });
+         if (settings.onlyFontResizing) {
+            $el.css({
+               'font-size': fontSize + 'px',
+               'line-height': fontSize * settings.lineRatio + 'px',
+            });
+         } else {
+            $el.css({
+               'position': 'absolute',
+               'font-size': fontSize + 'px',
+               'line-height': fontSize * settings.lineRatio + 'px',
+               'padding-left': paddingw + 'px',
+               'padding-right': paddingw + 'px',
+               'width': elw + 'px',
+               'height': '100%',
+            });
+         }
       };
 
       return this.each(function() {
