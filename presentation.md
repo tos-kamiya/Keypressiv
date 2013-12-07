@@ -8,6 +8,8 @@
 # Keypressiv Introduction
 </center>
 <br/>
+<br/>
+<br/>
 <center>
 ## author: Toshihiro Kamiya
 </center>
@@ -175,6 +177,7 @@ border-radius: 0 0 0 8px;
 </center>
 <br/>
 <br/>
+<a href="#1">&rarr; Go to title slide</a>
 <br/>
 Keypressiv is available in [github.com/tos-kamiya/Keypressiv](https://github.com/tos-kamiya/Keypressiv).
 
