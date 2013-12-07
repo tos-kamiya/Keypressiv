@@ -175,10 +175,13 @@ border-radius: 0 0 0 8px;
 <center>
 # Enjoy!
 </center>
+<center>
+<button type="button" onclick="location.href='#1';">&rarr; Go to title slide</button>
+</center>
 <br/>
 <br/>
-<a href="#1">&rarr; Go to title slide</a>
 <br/>
+<center>
 Keypressiv is available in [github.com/tos-kamiya/Keypressiv](https://github.com/tos-kamiya/Keypressiv).
-
+</center>
 
