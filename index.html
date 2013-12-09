@@ -55,6 +55,19 @@
             import html
             from slidelib import read_pages
 
+            def get_hash_num():
+                if doc.location.hash:
+                    h = doc.location.hash[1:]
+                    try:
+                        i = int(h)
+                        return i
+                    except:
+                        pass
+                return None
+
+            def set_hash_num(n):
+                doc.location.hash = n
+
             def draw_page(zone_id, page_data, confing_data):
                 mk, scripts = page_data
                 doc[zone_id].html = mk
@@ -69,22 +82,24 @@
             pages, config_data = read_pages("presentation.md")
             doc["slidefooter-text"].text = config_data.get("footer-text", "")
 
-            cur_page_index = [0]
+            n = get_hash_num()
+            i = max(0, min(n - 1, len(pages) - 1)) if n is not None else 0
+            cur_page_index = [i]
             cur_typing_number = [0]
             cur_zone_index = [0]
 
             i = cur_page_index[0]
             config_data.update({ "page": i + 1 })
             draw_page('zone%d' % cur_zone_index[0], pages[i], config_data)
+            set_hash_num(i + 1)
 
             def move_page(delta):
                 if delta == 0:
                     return
                 cur_typing_number[0] = 0
                 previ = i = cur_page_index[0]
-                s = len(pages)
                 i += delta
-                i = max(0, min(i, s - 1))
+                i = max(0, min(i, len(pages) - 1))
                 if i == previ:
                     return
                 config_data.update({ "page": i + 1 })
@@ -98,6 +113,7 @@
                     set_no_animation(nzid, czid)
                 cur_page_index[0] = i
                 cur_zone_index[0] = zi
+                set_hash_num(i + 1)
 
             def do_keydown(e):
                 kc = e.keyCode
@@ -111,14 +127,30 @@
                 elif 96 <= kc <= 105:
                     cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 96)
                 elif kc == 13:
-                    i = cur_typing_number[0] - 1
-                    s = len(pages)
-                    i = max(0, min(i, s - 1))
-                    move_page(i - cur_page_index[0])
-                    cur_typing_number[0] = 0
+                    n = cur_typing_number[0]
+                    if n > 0:
+                        i = cur_typing_number[0] - 1
+                        s = len(pages)
+                        i = max(0, min(i, s - 1))
+                        move_page(i - cur_page_index[0])
+                        cur_typing_number[0] = 0
+                    else:
+                        return False
+                else:
+                    return False
+                return True  # consume event
             doc.bind('keydown', do_keydown)
+            
+            def do_hashchange():
+                n = get_hash_num()
+                if n is not None:
+                    i = max(0, min(n - 1, len(pages) - 1))
+                    move_page(i - cur_page_index[0])
         </script>
         <script>
+            $(window).on('hashchange', function () {
+                do_hashchange();
+            });
             $("body").hammer({ "swipe_velocity": 0.5 })
                     .on("release swipeleft swiperight", function(ev) {
                 switch(ev.type) {
