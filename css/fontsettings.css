@@ -35,20 +35,20 @@ li {
 ul {
     list-style: none;
 }
-ul li:before {
+ul > li:before {
     content: "\25CB";
     font-size: 100%;
     padding-right: 5px;
 }
-ul li ul li:before {
+ul > li ul > li:before {
     content: "\25CF";
     font-size: 100%;
     padding-right: 5px;
 }
-ul li.li-ballot-checked:before {
+ul > li.li-ballot-checked:before {
     content: "\2611";
 }
-ul li.li-ballot:before {
+ul > li.li-ballot:before {
     content: "\2610";
 }
 
