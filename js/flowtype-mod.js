@@ -12,7 +12,7 @@
 * Thanks to Giovanni Difeterici (http://www.gdifeterici.com/)
 */
 
-/* modified by Toshihiro Kamiya 2013-11-27, 2013-12-07 */
+/* modified by Toshihiro Kamiya 2013-11-27, 2013-12-07, 2013-12-20 */
 
 (function($) {
    $.fn.flowtype = function(options) {
@@ -26,7 +26,8 @@
          fontRatio : 35,
          lineRatio : 1.45,
          aspectRatio: 1.33,
-         onlyFontResizing: false
+         onlyFontResizing: false,
+         scaling   : 1.0
       }, options),
 
 // Do the magic math
@@ -34,9 +35,13 @@
       changes = function(el) {
          var $el = $(el),
             elh = $(window).height(),
-            elaw = $(window).width(),
-            elw = elaw > settings.aspectRatio * elh ? (elh * settings.aspectRatio) : elaw,
-            paddingw = elw < elaw ? (elaw - elw) * 0.5 : 0,
+            elaw = $(window).width();
+         var elw = elaw;
+         if (settings.aspectRatio != null) {
+            elw = elaw > settings.aspectRatio * elh ? (elh * settings.aspectRatio) : elaw;
+         }
+         elw = elw * settings.scaling;
+         var paddingw = elw < elaw ? (elaw - elw) * 0.5 : 0,
             width = elw < settings.minimum ? settings.minimum : elw,
             fontBase = width / settings.fontRatio,
             fontSize = fontBase > settings.maxFont ? settings.maxFont : fontBase < settings.minFont ? settings.minFont : fontBase;
@@ -54,7 +59,7 @@
                'padding-left': paddingw + 'px',
                'padding-right': paddingw + 'px',
                'width': elw + 'px',
-               'height': '100%',
+               'height': 100 * settings.scaling + '%',
             });
          }
       };

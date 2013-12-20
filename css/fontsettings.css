@@ -57,14 +57,6 @@ p.listing-indent {
     text-indent: -1em;
 }
 
-.handout-page-num {
-    text-align: right;
-    font-size: 1em;
-}
-
-#zone {
-    padding: 2em;
-}
 #slidefooter-page {
     text-align: right;
     font-size: 1.5em;
@@ -81,5 +73,10 @@ p.listing-indent {
     left: 20%;
     width: 60%;
     height:10%;
+}
+
+.handout-page-num {
+    text-align: right;
+    font-size: 1em;
 }
 

@@ -12,17 +12,21 @@
         <script src="js/animation.js"></script>
         <script src="brython/brython.js"></script>
         <script type="text/javascript">
+            var aspectRatio = 1.33;
+            var resizeElements = function() {
+                $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
+                $('#zone0').flowtype({ "aspactRatio": aspectRatio });
+                $('#zone1').flowtype({ "aspactRatio": aspectRatio });
+                $('#slidefooter-page,#slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
+            };
             $(function() {
                 brython();
-                var resizeElements = function() {
-                    $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
-                    $('#zone0').flowtype();
-                    $('#zone1').flowtype();
-                    $('#slidefooter-page,#slidefooter-text').flowtype({ "onlyFontResizing": true });
-                };
                 resizeElements();
                 $(window).resize(function(){ resizeElements(); });
             });
+            var setDisplay = function(elemntID, value) {
+                $(elemntID).css("display", value);
+            };
         </script>
         <style>
             div#slidefooter-page {
@@ -34,6 +38,27 @@
                 position: fixed;
                 bottom: 0;
                 z-index: -2;
+            }
+        </style>
+
+        <style>
+            #zone > table, #zone > table > tbody > tr, #zone > table > tbody > tr > td {
+                margin: 0;
+                padding: 0;
+            }
+            #zone > table {
+                table-layout:fixed;
+                border-collapse: collapse;
+            }
+            .minimap-page {
+                overflow: hidden;
+            }
+            #zone > table > tbody >  tr > td {
+                padding: 5px;
+                border: 2px solid #444;
+            }
+            #zone > table > tbody > tr > td:hover {
+                background-color: #eee;
             }
         </style>
 
@@ -58,6 +83,8 @@
             def get_hash_num():
                 if doc.location.hash:
                     h = doc.location.hash[1:]
+                    if h in ("m", "minimap"):
+                        return "minimap"
                     try:
                         i = int(h)
                         return i
@@ -78,14 +105,16 @@
                 doc["slidefooter-page"].text = page_num
                 op = 1 if page_num > 1 or confing_data.get("show-footer-in-title-page") else 0
                 doc["slidefooter-text"].style.opacity = doc["slidefooter-page"].style.opacity = op
-
+            
             pages, config_data = read_pages("presentation.md")
             doc["slidefooter-text"].text = config_data.get("footer-text", "")
 
             n = get_hash_num()
+            if n == "minimap":
+                doc.location.href = "minimap.html"
             i = max(0, min(n - 1, len(pages) - 1)) if n is not None else 0
             cur_page_index = [i]
-            cur_typing_number = [0]
+            cur_typing_string = [0]
             cur_zone_index = [0]
 
             i = cur_page_index[0]
@@ -96,7 +125,7 @@
             def move_page(delta):
                 if delta == 0:
                     return
-                cur_typing_number[0] = 0
+                cur_typing_string[0] = ""
                 previ = i = cur_page_index[0]
                 i += delta
                 i = max(0, min(i, len(pages) - 1))
@@ -117,35 +146,52 @@
 
             def do_keydown(e):
                 kc = e.keyCode
-                if 37 <= kc <= 40:
+                if 37 <= kc <= 40:  # arrow keys
+                    cur_typing_string[0] = ""
                     if kc in (37, 38):
                         move_page(-1)
                     elif kc in (39, 40):
                         move_page(1)
-                elif 48 <= kc <= 57:
-                    cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 48)
-                elif 96 <= kc <= 105:
-                    cur_typing_number[0] = cur_typing_number[0] * 10 + (kc - 96)
-                elif kc == 13:
-                    n = cur_typing_number[0]
-                    if n > 0:
-                        i = cur_typing_number[0] - 1
-                        s = len(pages)
-                        i = max(0, min(i, s - 1))
-                        move_page(i - cur_page_index[0])
-                        cur_typing_number[0] = 0
+                elif 48 <= kc <= 57:  # digit
+                    cur_typing_string[0] = cur_typing_string[0] + chr(ord('0') + (kc - 48))
+                elif 96 <= kc <= 105:  # digit
+                    cur_typing_string[0] = cur_typing_string[0] + chr(ord('0') + (kc - 48))
+                elif kc == 13:  # enter
+                    s = cur_typing_string[0]
+                    cur_typing_string[0] = ""
+                    if s in ("m", "minimap"):
+                        doc.location.href = "minimap.html#%d" % (cur_page_index[0] + 1)
                     else:
-                        return False
+                        try:
+                            n = int(s)
+                            if n > 0:
+                                i = n - 1
+                                s = len(pages)
+                                i = max(0, min(i, s - 1))
+                                move_page(i - cur_page_index[0])
+                            else:
+                                return False
+                        except:
+                            return False
+                elif kc == 77:  # M
+                    cur_typing_string[0] = "m"
                 else:
+                    cur_typing_string[0] = ""
                     return False
                 return True  # consume event
             doc.bind('keydown', do_keydown)
             
             def do_hashchange():
                 n = get_hash_num()
-                if n is not None:
-                    i = max(0, min(n - 1, len(pages) - 1))
-                    move_page(i - cur_page_index[0])
+                if n == "minimap":
+                    doc.location.href = "minimap.html#%d" % (cur_page_index[0] + 1)
+                    return
+                elif n is not None:
+                    if n == "minimap":
+                        move_minimap()
+                    else:
+                        i = max(0, min(n - 1, len(pages) - 1))
+                        move_page(i - cur_page_index[0])
         </script>
         <script>
             $(window).on('hashchange', function () {
