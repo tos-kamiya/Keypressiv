@@ -54,6 +54,7 @@ With either keyboard, mouse, or touch pad.
 * **[&larr;]**, **Swipe right** : previous page
 * **[&rarr;]**, **Swipe left** : next page
 * Number + **[Enter]** : go to the page
+* M [Enter]: go to minimap
 
 !SLIDE
 
