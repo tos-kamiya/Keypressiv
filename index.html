@@ -19,14 +19,15 @@
                 $('#zone1').flowtype({ "aspactRatio": aspectRatio });
                 $('#slidefooter-page,#slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
             };
+            var changeAspectRatio = function(newRatio) {
+                aspectRatio = newRatio;
+                resizeElements();
+            };
             $(function() {
                 brython();
                 resizeElements();
                 $(window).resize(function(){ resizeElements(); });
             });
-            var setDisplay = function(elemntID, value) {
-                $(elemntID).css("display", value);
-            };
         </script>
         <style>
             div#slidefooter-page {
@@ -108,6 +109,9 @@
             
             pages, config_data = read_pages("presentation.md")
             doc["slidefooter-text"].text = config_data.get("footer-text", "")
+            a = config_data.get("aspect-ratio")
+            if a:
+                changeAspectRatio(a)
 
             n = get_hash_num()
             if n == "minimap":
