@@ -1,4 +1,5 @@
 {
+    "aspect-ratio": 1.33,
     "footer-text": "Keypressiv Introduction",
     "show-footer-in-title-page": false
 }

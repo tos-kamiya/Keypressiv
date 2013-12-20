@@ -11,15 +11,19 @@
         <script type="text/javascript">
             var columns = 4;
             var aspectRatio = 1.33;
+            var resizeElements = function() {
+                $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
+                var scaling = 1.0 / columns;
+                var elaw = $(window).width() - (5 * (columns * 2) + 2 * (columns + 1));
+                $('.minimap-page').css({ "width": elaw * scaling + "px", "height": elaw * scaling / aspectRatio + "px" });
+                $('.minimap-page').flowtype({ "onlyFontResizing": true, "scaling": scaling, "aspectRatio": null });
+            };
+            var changeAspectRatio = function(newRatio) {
+                aspectRatio = newRatio;
+                resizeElements();
+            };
             $(function() {
                 brython();
-                var resizeElements = function() {
-                    $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
-                    var scaling = 1.0 / columns;
-                    var elaw = $(window).width() - (5 * (columns * 2) + 2 * (columns + 1));
-                    $('.minimap-page').css({ "width": elaw * scaling + "px", "height": elaw * scaling / aspectRatio + "px" });
-                    $('.minimap-page').flowtype({ "onlyFontResizing": true, "scaling": scaling, "aspectRatio": null });
-                };
                 resizeElements();
                 $(window).resize(function(){ resizeElements(); });
             });
@@ -79,6 +83,9 @@
                 return None
 
             page_datas, config_data = read_pages("presentation.md")
+            a = config_data.get("aspect-ratio")
+            if a:
+                changeAspectRatio(a)
 
             prev_shown_page_num = get_hash_num()
 
