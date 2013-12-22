@@ -13,11 +13,17 @@
         <script src="brython/brython.js"></script>
         <script type="text/javascript">
             var aspectRatio = 1.33;
+            var columns = 4;
             var resizeElements = function() {
-                $('body').css({ 'width': $(window).width(), 'height': $(window).height() });
+                $('bodyp').width($(window).width()).height($(window).height());
                 $('#zone0').flowtype({ "aspactRatio": aspectRatio });
                 $('#zone1').flowtype({ "aspactRatio": aspectRatio });
                 $('#slidefooter-page,#slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
+                
+                var scaling = 1.0 / columns;
+                var elaw = $(window).width() - (5 * (columns * 2) + 2 * (columns + 1));
+                $('.minimap-page').css({ "width": elaw * scaling + "px", "height": elaw * scaling / aspectRatio + "px" });
+                $('.minimap-page').flowtype({ "onlyFontResizing": true, "scaling": scaling, "aspectRatio": null });
             };
             var changeAspectRatio = function(newRatio) {
                 aspectRatio = newRatio;
@@ -27,6 +33,45 @@
                 brython();
                 resizeElements();
                 $(window).resize(function(){ resizeElements(); });
+            });
+
+            var switchToSlideMode = function(i) {
+                $('#bodyp').css('display', 'inherit');
+                $('#bodym').css('display', 'none');
+                $("body").css("overflow", "hidden");
+                resizeElements();
+                if (i !== undefined)
+                    goto_page(i)
+            }
+            var switchToMapMode = function() {
+                $('#bodyp').css('display', 'none');
+                $('#bodym').css('display', 'inherit');
+                $("body").css("overflow", "scroll");
+                resizeElements();
+            };
+            var getCurMode = function() {
+                if ($('#bodyp').css('display') != "none")
+                    return "p"
+                if ($('#bodym').css('display') != "none")
+                    return "m"
+                return ""
+            }
+
+            $(window).on('hashchange', function () {
+                do_hashchange();
+            });
+            $("body").hammer({ "swipe_velocity": 0.5 })
+                    .on("release swipeleft swiperight", function(ev) {
+                switch(ev.type) {
+                case 'swipeleft':
+                    move_page(1);
+                    ev.gesture.stopDetect();
+                    break;
+               case 'swiperight':
+                    move_page(-1);
+                    ev.gesture.stopDetect();
+                    break;
+                }
             });
         </script>
         <style>
@@ -56,74 +101,78 @@
             }
             #zone > table > tbody >  tr > td {
                 padding: 5px;
-                border: 2px solid #444;
+                border: 2px solid #57bade;
             }
             #zone > table > tbody > tr > td:hover {
-                background-color: #eee;
+                background-color: #57bade;
+            }
+            #zone > table > tbody >  tr > td.empty-page {
+                background-color: #888;
+                border: 2px solid #888;
+            }
+            #zone > table > tbody >  tr > td.prev-shown-page {
+                background-color: #e6aeae;
+            }
+            #zone > table > tbody >  tr > td.prev-shown-page:hover {
+                background-color: #57bade;
             }
         </style>
 
         <!-- Optional: google-code-prettify, a syntax highlighter -->
         <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
+        <script>
+            var doCodePrettify = true;
+        </script>
 
         <!-- Optional: title of slide -->
         <title></title>
     </head>
     <body style="position:relative;overflow:hidden;">
-        <div id="slidefooter-page"></div>
-        <div id="slidefooter-text"></div>
-        <div id='zone0'>
+        <div id="bodyp">
+            <div id="slidefooter-page"></div>
+            <div id="slidefooter-text"></div>
+            <div id='zone0'>
+            </div>
+            <div id='zone1' style="display:none;">
+            </div>
         </div>
-        <div id='zone1' style="display:none;">
+        <div id="bodym" style="display:none;">
+            <div id='zone'>
+            </div>
         </div>
         <script type="text/python">
-            import html
-            from slidelib import read_pages
+            from slidelib import read_pages, draw_slide, draw_minimap
 
-            def get_hash_num():
+            def get_hash():
                 if doc.location.hash:
                     h = doc.location.hash[1:]
-                    if h in ("m", "minimap"):
-                        return "minimap"
-                    try:
-                        i = int(h)
-                        return i
-                    except:
-                        pass
+                    return h
                 return None
 
             def set_hash_num(n):
                 doc.location.hash = n
 
-            def draw_page(zone_id, page_data, confing_data):
-                mk, scripts = page_data
-                doc[zone_id].html = mk
-                for script in scripts:
-                    exec(script, globals())
-                prettyPrint() # optional, google-code-prettify
-                page_num = confing_data['page']
-                doc["slidefooter-page"].text = page_num
-                op = 1 if page_num > 1 or confing_data.get("show-footer-in-title-page") else 0
-                doc["slidefooter-text"].style.opacity = doc["slidefooter-page"].style.opacity = op
-            
             pages, config_data = read_pages("presentation.md")
             doc["slidefooter-text"].text = config_data.get("footer-text", "")
             a = config_data.get("aspect-ratio")
             if a:
                 changeAspectRatio(a)
 
-            n = get_hash_num()
-            if n == "minimap":
-                doc.location.href = "minimap.html"
-            i = max(0, min(n - 1, len(pages) - 1)) if n is not None else 0
+            h = get_hash()
+            try:
+                i = max(0, min(int(h) - 1, len(pages) - 1))
+            except:
+                i = 0
             cur_page_index = [i]
             cur_typing_string = [0]
             cur_zone_index = [0]
 
             i = cur_page_index[0]
             config_data.update({ "page": i + 1 })
-            draw_page('zone%d' % cur_zone_index[0], pages[i], config_data)
+            draw_slide(doc, 'zone%d' % cur_zone_index[0], pages[i], config_data)
+            draw_minimap(doc, 'zone', pages, config_data)
+            prettyPrint() # optional, google-code-prettify
             set_hash_num(i + 1)
 
             def move_page(delta):
@@ -139,18 +188,22 @@
                 zi = (cur_zone_index[0] + 1) % 2
                 czid = 'zone%d' % cur_zone_index[0]
                 nzid = 'zone%d' % zi
-                draw_page(nzid, pages[i], config_data)
-                if -1 <= delta <= 1:
+                draw_slide(doc, nzid, pages[i], config_data)
+                if getCurMode() == "p" and -1 <= delta <= 1:
                     set_sliding_animation(nzid, czid, ("right" if delta > 0 else "left"))
                 else:
                     set_no_animation(nzid, czid)
+                prettyPrint() # optional, google-code-prettify
                 cur_page_index[0] = i
                 cur_zone_index[0] = zi
                 set_hash_num(i + 1)
+            
+            def goto_page(n):
+                move_page(n - cur_page_index[0])
 
             def do_keydown(e):
                 kc = e.keyCode
-                if 37 <= kc <= 40:  # arrow keys
+                if getCurMode() == "p" and 37 <= kc <= 40:  # arrow keys
                     cur_typing_string[0] = ""
                     if kc in (37, 38):
                         move_page(-1)
@@ -163,8 +216,10 @@
                 elif kc == 13:  # enter
                     s = cur_typing_string[0]
                     cur_typing_string[0] = ""
-                    if s in ("m", "minimap"):
-                        doc.location.href = "minimap.html#%d" % (cur_page_index[0] + 1)
+                    if s == "s":
+                        switchToSlideMode()
+                    elif s == "m":
+                        switchToMapMode()
                     else:
                         try:
                             n = int(s)
@@ -172,48 +227,37 @@
                                 i = n - 1
                                 s = len(pages)
                                 i = max(0, min(i, s - 1))
-                                move_page(i - cur_page_index[0])
+                                if getCurMode() != "s":
+                                    switchToSlideMode()
+                                goto_page(i)
                             else:
                                 return False
                         except:
                             return False
-                elif kc == 77:  # M
-                    cur_typing_string[0] = "m"
+                elif 65 <= kc <= 77:  # A..Z
+                    cur_typing_string[0] = chr(kc - 65  + 97)
+                elif kc == 9:  # Tab
+                    switchToMapMode()
+                elif kc == 27:  # Esc
+                    switchToSlideMode()
                 else:
                     cur_typing_string[0] = ""
                     return False
                 return True  # consume event
             doc.bind('keydown', do_keydown)
-            
+
             def do_hashchange():
-                n = get_hash_num()
-                if n == "minimap":
-                    doc.location.href = "minimap.html#%d" % (cur_page_index[0] + 1)
-                    return
-                elif n is not None:
-                    if n == "minimap":
-                        move_minimap()
-                    else:
-                        i = max(0, min(n - 1, len(pages) - 1))
-                        move_page(i - cur_page_index[0])
-        </script>
-        <script>
-            $(window).on('hashchange', function () {
-                do_hashchange();
-            });
-            $("body").hammer({ "swipe_velocity": 0.5 })
-                    .on("release swipeleft swiperight", function(ev) {
-                switch(ev.type) {
-                    case 'swipeleft':
-                        move_page(1);
-                        ev.gesture.stopDetect();
-                        break;
-                   case 'swiperight':
-                        move_page(-1);
-                        ev.gesture.stopDetect();
-                        break;
-                }
-            });
+                h = get_hash()
+                if h.startswith("s"):
+                    switchToSlideMode()
+                elif h.startswith("m"):
+                    switchToMapMode()
+                else:
+                    try:
+                        i = max(0, min(int(h) - 1, len(pages) - 1))
+                        goto_page(i)
+                    except:
+                        pass
         </script>
     </body>
 </html>
