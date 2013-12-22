@@ -31,3 +31,35 @@ def read_pages(presentation_file):
 
     return page_datas, config_data
 
+def draw_slide(doc, zone_id, page_data, confing_data):
+    mk, scripts = page_data
+    doc[zone_id].html = mk
+    for script in scripts:
+        exec(script, globals())
+    page_num = confing_data['page']
+    doc["slidefooter-page"].text = page_num
+    op = 1 if page_num > 1 or confing_data.get("show-footer-in-title-page") else 0
+    doc["slidefooter-text"].style.opacity = doc["slidefooter-page"].style.opacity = op
+
+def draw_minimap(doc, zone_id, page_datas, config_data):
+    h = []
+    h.append("<table><tr>")
+    col = 0
+    cur_page = config_data.get("page", -1)
+    for i, (mk, _) in enumerate(page_datas):
+        page_num = i + 1
+        additional_attr = ""
+        h.append("""<td%s onclick="switchToSlideMode(%d);"><div class="minimap-page">""" % (additional_attr, i))
+        h.append(mk)
+        h.append("""</div></td>""")
+        col += 1
+        if col % 4 == 0:
+            h.append("</tr><tr>")
+    while col % 4 != 0:
+        h.append("""<td class="empty-page"><div class="minimap-page">&nbsp;</div></td>""")
+        col += 1
+    h.append("</tr></table>")
+    doc[zone_id].html = "".join(h)
+    for _, scripts in page_datas:
+        for script in scripts:
+            exec(script, globals())

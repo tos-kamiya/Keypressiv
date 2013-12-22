@@ -54,8 +54,9 @@ With either keyboard, mouse, or touch pad.
 
 * **[&larr;]**, **Swipe right** : previous page
 * **[&rarr;]**, **Swipe left** : next page
-* Number + **[Enter]** : go to the page
-* **&#91;M&#93;** **&#91;Enter&#93;**: go to minimap (open [minimap.html](minimap.html))
+* Number **[Enter]** : go to the page
+* **[M]** **[Enter]**, **[Tab]**: to Map mode
+* **[S]** **[Enter]**, **[Esc]**: to Slide mode
 
 !SLIDE
 
