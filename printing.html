@@ -3,21 +3,43 @@
     <head>
         <meta charset="utf-8">
         <script src="js/jquery.min.js"></script>
+        <script src="js/flowtype-mod.js"></script>
         <script src="brython/brython.js"></script>
         <link rel="stylesheet" href="css/html5reset.css">
          
         <link rel="stylesheet" href="css/fontsettings.css">
         <script type="text/javascript">
+            var aspectRatio = 1.33;
+            var resizeElements = function() {
+                $('.page').flowtype({ "aspactRatio": aspectRatio });
+            }
+            var changeAspectRatio = function(newRatio) {
+                aspectRatio = newRatio;
+                resizeElements();
+            };
             $(function() {
                 brython();
+                resizeElements();
+                $(window).resize(function(){ resizeElements(); });
             });
         </script>
         <style>
+            .page {
+                position: relative;
+                overflow: hidden;
+            }
             hr.pagebreak {
                 page-break-after: always;
             }
-            #zone {
-                padding: 1em;
+            .slidefooter-page {
+                position: absolute;
+                bottom: 0;
+                z-index: -2;
+            }
+            .slidefooter-text {
+                position: absolute;
+                bottom: 0;
+                z-index: -2;
             }
         </style>
 
@@ -37,9 +59,12 @@
             page_datas, config_data = read_pages("presentation.md")
             h = []
             for i, (mk, _) in enumerate(page_datas):
+                h.append("""<div class="page">""")
                 h.append(mk)
-                h.append("""<div class="handout-page-num">%d</div>""" % (i + 1))
-                h.append("""<hr/>""")
+                h.append("""<div class="slidefooter-page">%d</div>""" % (i + 1))
+                h.append("""<div class="slidefooter-text">%s</div>""" % config_data.get("footer-text", ""))
+                h.append("""</div>""")
+                h.append("""<hr class="pagebreak"/>""")
             doc['zone'].html = "".join(h)
             prettyPrint() # optional, google-code-prettify
             for _, scripts in page_datas:

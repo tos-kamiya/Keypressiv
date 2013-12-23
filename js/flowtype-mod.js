@@ -34,11 +34,15 @@
 // =================
       changes = function(el) {
          var $el = $(el),
-            elh = $(window).height(),
+            elah = $(window).height(),
             elaw = $(window).width();
-         var elw = elaw;
+         var elw = elaw,
+             elh = elah;
          if (settings.aspectRatio != null) {
-            elw = elaw > settings.aspectRatio * elh ? (elh * settings.aspectRatio) : elaw;
+            if (elaw > settings.aspectRatio * elah)
+                elw = elah * settings.aspectRatio;
+            else
+                elh = elaw / settings.aspectRatio;
          }
          elw = elw * settings.scaling;
          var paddingw = elw < elaw ? (elaw - elw) * 0.5 : 0,
@@ -53,13 +57,12 @@
             });
          } else {
             $el.css({
-               'position': 'absolute',
                'font-size': fontSize + 'px',
                'line-height': fontSize * settings.lineRatio + 'px',
                'padding-left': paddingw + 'px',
                'padding-right': paddingw + 'px',
                'width': elw + 'px',
-               'height': 100 * settings.scaling + '%',
+               'height': elh + 'px',
             });
          }
       };

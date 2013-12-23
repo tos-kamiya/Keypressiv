@@ -57,7 +57,7 @@ p.listing-indent {
     text-indent: -1em;
 }
 
-#slidefooter-page {
+#slidefooter-page, .slidefooter-page {
     text-align: right;
     font-size: 1.5em;
     color: #444;
@@ -66,7 +66,7 @@ p.listing-indent {
     width: 10%;
     height:10%;
 }
-#slidefooter-text {
+#slidefooter-text, .slidefooter-text {
     text-align: center;
     font-size: 0.7em;
     color: #444;
