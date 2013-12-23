@@ -36,7 +36,7 @@
             });
 
             var switchToSlideMode = function(i) {
-                $('#bodyp').css('display', 'inherit');
+                $('#bodyp').fadeIn("fast");
                 $('#bodym').css('display', 'none');
                 $("body").css("overflow", "hidden");
                 resizeElements();
@@ -45,7 +45,7 @@
             }
             var switchToMapMode = function() {
                 $('#bodyp').css('display', 'none');
-                $('#bodym').css('display', 'inherit');
+                $('#bodym').fadeIn("fast");
                 $("body").css("overflow", "scroll");
                 resizeElements();
             };
