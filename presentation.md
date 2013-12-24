@@ -46,6 +46,11 @@ open an URL **http://localhost:8000**
 (4') A handout is shown in [handout.html](handout.html), e.g.:
 open an URL **http://localhost:8000/handout.html**
 
+(5') To print slides, show [printing.html](printing.html), e.g.:
+open an URL **http://localhost:8000/printing.html**
+
+&rarr; and "print to PDF" to convert slides to a PDF file.
+
 !SLIDE
 
 ## Controls in Presentation
