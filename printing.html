@@ -27,8 +27,6 @@
             .page {
                 position: relative;
                 overflow: hidden;
-            }
-            hr.pagebreak {
                 page-break-after: always;
             }
             .slidefooter-page {
@@ -57,6 +55,10 @@
             from slidelib import read_pages
 
             page_datas, config_data = read_pages("presentation.md")
+            a = config_data.get("aspect-ratio")
+            if a:
+                changeAspectRatio(a)
+
             h = []
             for i, (mk, _) in enumerate(page_datas):
                 h.append("""<div class="page">""")
@@ -64,7 +66,6 @@
                 h.append("""<div class="slidefooter-page">%d</div>""" % (i + 1))
                 h.append("""<div class="slidefooter-text">%s</div>""" % config_data.get("footer-text", ""))
                 h.append("""</div>""")
-                h.append("""<hr class="pagebreak"/>""")
             doc['zone'].html = "".join(h)
             prettyPrint() # optional, google-code-prettify
             for _, scripts in page_datas:
