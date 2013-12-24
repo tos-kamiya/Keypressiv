@@ -12,6 +12,7 @@
             var aspectRatio = 1.33;
             var resizeElements = function() {
                 $('.page').flowtype({ "aspactRatio": aspectRatio });
+                $('.slidefooter-page,.slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
             }
             var changeAspectRatio = function(newRatio) {
                 aspectRatio = newRatio;
