@@ -41,8 +41,8 @@
                 $("body").css("overflow", "hidden");
                 resizeElements();
                 if (i !== undefined)
-                    goto_page(i)
-            }
+                    goto_page(i);
+            };
             var switchToMapMode = function() {
                 $('#bodyp').css('display', 'none');
                 $('#bodym').fadeIn("fast");
@@ -51,15 +51,15 @@
             };
             var getCurMode = function() {
                 if ($('#bodyp').css('display') != "none")
-                    return "p"
+                    return "p";
                 if ($('#bodym').css('display') != "none")
-                    return "m"
-                return ""
-            }
-
-            $(window).on('hashchange', function () {
-                do_hashchange();
-            });
+                    return "m";
+                return "";
+            };
+            var bindHashchange = function(handler) {
+	            $(window).on('hashchange', handler);
+            };
+            
             $("body").hammer({ "swipe_velocity": 0.5 })
                     .on("release swipeleft swiperight", function(ev) {
                 switch(ev.type) {
@@ -156,21 +156,23 @@
             def set_hash_num(n):
                 doc.location.hash = n
 
+            # load presentation
             pages, config_data = read_pages("presentation.md")
             doc["slidefooter-text"].text = config_data.get("footer-text", "")
             a = config_data.get("aspect-ratio")
             if a:
                 changeAspectRatio(a)
 
+            # get initial page number
             h = get_hash()
             try:
                 i = max(0, min(int(h) - 1, len(pages) - 1))
             except:
                 i = 0
             cur_page_index = [i]
-            cur_typing_string = [0]
-            cur_zone_index = [0]
 
+            # show a slide
+            cur_zone_index = [0]
             i = cur_page_index[0]
             config_data.update({ "page": i + 1 })
             draw_slide(doc, 'zone%d' % cur_zone_index[0], pages[i], config_data)
@@ -178,10 +180,10 @@
             prettyPrint() # optional, google-code-prettify
             set_hash_num(i + 1)
 
+            # page change functions
             def move_page(delta):
                 if delta == 0:
                     return
-                cur_typing_string[0] = ""
                 previ = i = cur_page_index[0]
                 i += delta
                 i = max(0, min(i, len(pages) - 1))
@@ -204,21 +206,24 @@
             def goto_page(n):
                 move_page(n - cur_page_index[0])
 
+            # keyboard handling
+            cur_typing_string = []
+
             def do_keydown(e):
                 kc = e.keyCode
-                if getCurMode() == "p" and 37 <= kc <= 40:  # arrow keys
-                    cur_typing_string[0] = ""
-                    if kc in (37, 38):
-                        move_page(-1)
-                    elif kc in (39, 40):
-                        move_page(1)
-                elif 48 <= kc <= 57:  # digit
-                    cur_typing_string[0] = cur_typing_string[0] + chr(ord('0') + (kc - 48))
-                elif 96 <= kc <= 105:  # digit
-                    cur_typing_string[0] = cur_typing_string[0] + chr(ord('0') + (kc - 48))
+                if 48 <= kc <= 105:
+                    if 48 <= kc <= 57:  # digit
+                        cur_typing_string.append(chr(ord('0') + (kc - 48)))
+                    elif 96 <= kc <= 105:  # digit
+                        cur_typing_string.append(chr(ord('0') + (kc - 96)))
+                    elif 65 <= kc <= 90:  # A..Z
+                        cur_typing_string.append(chr(kc - 65  + 97))
+                    else:
+                        cur_typing_string[:] = []
+                        return False
                 elif kc == 13:  # enter
-                    s = cur_typing_string[0]
-                    cur_typing_string[0] = ""
+                    s = "".join(cur_typing_string)
+                    cur_typing_string[:] = []
                     if s == "s":
                         switchToSlideMode()
                     elif s == "m":
@@ -226,30 +231,34 @@
                     else:
                         try:
                             n = int(s)
-                            if n > 0:
-                                i = n - 1
-                                s = len(pages)
-                                i = max(0, min(i, s - 1))
-                                if getCurMode() != "s":
-                                    switchToSlideMode()
-                                goto_page(i)
-                            else:
-                                return False
                         except:
                             return False
-                elif 65 <= kc <= 90:  # A..Z
-                    cur_typing_string[0] = chr(kc - 65  + 97)
-                elif kc == 9:  # Tab
-                    switchToMapMode()
-                elif kc == 27:  # Esc
-                    switchToSlideMode()
+                        if n > 0:
+                            i = n - 1
+                            s = len(pages)
+                            i = max(0, min(i, s - 1))
+                            if getCurMode() != "s":
+                                switchToSlideMode()
+                            goto_page(i)
+                        else:
+                            return False
                 else:
-                    cur_typing_string[0] = ""
-                    return False
+                    cur_typing_string[:] = []
+                    if 37 <= kc <= 40:  # arrow keys
+                        if getCurMode() == "p":
+                            move_page(-1 if kc in (37, 38) else 1)
+                    elif kc == 9:  # Tab
+                        switchToMapMode()
+                    elif kc == 27:  # Esc
+                        switchToSlideMode()
+                    else:
+                        return False
                 return True  # consume event
+
             doc.bind('keydown', do_keydown)
 
-            def do_hashchange():
+            # hash handling
+            def do_hashchange(newUrl, oldUrl):
                 h = get_hash()
                 if h.startswith("s"):
                     switchToSlideMode()
@@ -261,6 +270,8 @@
                         goto_page(i)
                     except:
                         pass
+
+            bindHashchange(do_hashchange)
         </script>
     </body>
 </html>
