@@ -16,12 +16,13 @@
             var aspectRatio = 1.33;
             var columns = 4;
             var resizeElements = function() {
-                $('body,#bodyp').width($(window).width()).height($(window).height());
+                var w = $(window).width();
+                $('body,#bodyp').width(w).height($(window).height());
                 $('#zone0,#zone1').flowtype({ "aspactRatio": aspectRatio });
                 $('.slidefooter-page,.slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
                 
                 var scaling = 1.0 / columns;
-                var elaw = $(window).width() - (5 * (columns * 2) + 2 * (columns + 1));
+                var elaw = w - (5 * (columns * 2) + 2 * (columns + 1));
                 $('.minimap-page').css({ "width": elaw * scaling + "px", "height": elaw * scaling / aspectRatio + "px" });
                 $('.minimap-page').flowtype({ "onlyFontResizing": true, "scaling": scaling, "aspectRatio": null });
             };
@@ -76,9 +77,6 @@
                 bottom: 0;
                 z-index: -2;
             }
-        </style>
-
-        <style>
             #zone > table, #zone > table > tbody > tr, #zone > table > tbody > tr > td {
                 margin: 0;
                 padding: 0;
@@ -140,14 +138,16 @@
             t = config_data.get("document-title")
             if t:
                 setTitle(t)
-
+            def clip_to_page_index(h):
+                try:
+                    i = int(h)
+                except:
+                    return None
+                return max(0, min(i - 1, len(pages) - 1))
+            
             # get initial page number
             h = getHash()
-            try:
-                i = max(0, min(int(h) - 1, len(pages) - 1))
-            except:
-                i = 0
-            cur_page_index = [i]
+            cur_page_index = [clip_to_page_index(h) or 0]
 
             # show a slide
             cur_zone_index = [0]
@@ -163,7 +163,7 @@
                 newi = max(0, min(dest_page_index, len(pages) - 1))
                 delta = newi - cur_page_index[0]
                 if delta == 0:
-                    returnpage
+                    return;
                 config_data.update({ "page": newi + 1 })
                 czi = cur_zone_index[0]
                 nzi = (czi + 1) % 2
@@ -196,13 +196,12 @@
                     else:
                         cur_typing_string[:] = []
                         return False
-                elif kc == 13:  # enter
+                else:
                     s = "".join(cur_typing_string)
                     cur_typing_string[:] = []
-                    hashchange(s)
-                else:
-                    cur_typing_string[:] = []
-                    if 37 <= kc <= 40:  # arrow keys
+                    if kc == 13:  # enter
+                        hashchange(s)
+                    elif 37 <= kc <= 40:  # arrow keys
                         if getCurMode() == "p":
                             move_page(-1 if kc in (37, 38) else 1)
                     elif kc == 9:  # Tab
@@ -217,18 +216,15 @@
 
             # hash handling
             def hashchange(h):
-                if h.startswith("s"):
+                i = clip_to_page_index(h)
+                if i is not None:
+                    if getCurMode() == "m":
+                        switchToSlideMode()
+                    goto_page(i)
+                elif h.startswith("s"):
                     switchToSlideMode()
                 elif h.startswith("m"):
                     switchToMapMode()
-                else:
-                    try:
-                        i = max(0, min(int(h) - 1, len(pages) - 1))
-                        if getCurMode() == "m":
-                            switchToSlideMode()
-                        goto_page(i)
-                    except:
-                        pass
             
             def do_hashchange(e):
                 hashchange(getHash())
