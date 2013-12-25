@@ -25,3 +25,8 @@ Apache License 2.0
 ## Hammer.js 1.0.5
 http://eightmedia.github.io/hammer.js/
 The MIT License
+
+## FontAwsome 4.0.3
+http://fortawesome.github.io/Font-Awesome/license/
+SIL OFL 1.1 http://scripts.sil.org/OFL
+"Font Awesome by Dave Gandy - http://fontawesome.io"

@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../font/FontAwesome.otf');
+  src: url('../font/fontawesome-webfont.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
     font-size: 18px;
     line-height: 26px;
@@ -36,20 +44,24 @@ ul {
     list-style: none;
 }
 ul > li:before {
-    content: "\25CB";
-    font-size: 100%;
+    font-family: FontAwesome;
+    content: "\f10c";
+    font-size: 80%;
     padding-right: 5px;
 }
 ul > li ul > li:before {
-    content: "\25CF";
-    font-size: 100%;
+    font-family: FontAwesome;
+    content: "\f111";
+    font-size: 80%;
     padding-right: 5px;
 }
 ul > li.li-ballot-checked:before {
-    content: "\2611";
+    font-family: FontAwesome;
+    content: "\f046";
 }
 ul > li.li-ballot:before {
-    content: "\2610";
+    font-family: FontAwesome;
+    content: "\f096";
 }
 
 p.listing-indent {
