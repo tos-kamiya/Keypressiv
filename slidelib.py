@@ -37,9 +37,10 @@ def draw_slide(doc, zone_id, page_data, confing_data):
     for script in scripts:
         exec(script, globals())
     page_num = confing_data['page']
-    doc["slidefooter-page"].text = page_num
+    p = doc.get(classname="slidefooter-page")[0]
+    p.text = page_num
     op = 1 if page_num > 1 or confing_data.get("show-footer-in-title-page") else 0
-    doc["slidefooter-text"].style.opacity = doc["slidefooter-page"].style.opacity = op
+    doc.get(classname="slidefooter-text")[0].style.opacity = p.style.opacity = op
 
 def draw_minimap(doc, zone_id, page_datas, config_data):
     h = []
@@ -48,8 +49,7 @@ def draw_minimap(doc, zone_id, page_datas, config_data):
     cur_page = config_data.get("page", -1)
     for i, (mk, _) in enumerate(page_datas):
         page_num = i + 1
-        additional_attr = ""
-        h.append("""<td%s onclick="switchToSlideMode(%d);"><div class="minimap-page">""" % (additional_attr, i))
+        h.append("""<td onclick="switchToSlideMode(%d);"><div class="minimap-page">""" % i)
         h.append(mk)
         h.append("""</div></td>""")
         col += 1
@@ -63,3 +63,28 @@ def draw_minimap(doc, zone_id, page_datas, config_data):
     for _, scripts in page_datas:
         for script in scripts:
             exec(script, globals())
+
+def draw_handout(doc, zone_id, page_datas, config_data):
+    h = []
+    for i, (mk, _) in enumerate(page_datas):
+        h.append(mk)
+        h.append("""<div class="handout-page-num">%d</div>""" % (i + 1))
+        h.append("""<hr/>""")
+    doc[zone_id].html = "".join(h)
+    for _, scripts in page_datas:
+        for script in scripts:
+            exec(script, globals())
+
+def draw_printing(doc, zone_id, page_datas, config_data):
+    h = []
+    for i, (mk, _) in enumerate(page_datas):
+        h.append("""<div class="page">""")
+        h.append(mk)
+        h.append("""<div class="slidefooter-page">%d</div>""" % (i + 1))
+        h.append("""<div class="slidefooter-text">%s</div>""" % config_data.get("footer-text", ""))
+        h.append("""</div>""")
+    doc[zone_id].html = "".join(h)
+    for _, scripts in page_datas:
+        for script in scripts:
+            exec(script, globals())
+    

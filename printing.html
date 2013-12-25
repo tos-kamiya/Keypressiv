@@ -45,33 +45,22 @@
         <!-- Optional: google-code-prettify, a syntax highlighter -->
         <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
-
-        <!-- Optional: title of slide -->
-        <title></title>
     </head>
     <body>
         <div id='zone'>
         </div>
         <script type="text/python">
-            from slidelib import read_pages
+            from slidelib import read_pages, draw_printing
 
             page_datas, config_data = read_pages("presentation.md")
             a = config_data.get("aspect-ratio")
             if a:
                 changeAspectRatio(a)
-
-            h = []
-            for i, (mk, _) in enumerate(page_datas):
-                h.append("""<div class="page">""")
-                h.append(mk)
-                h.append("""<div class="slidefooter-page">%d</div>""" % (i + 1))
-                h.append("""<div class="slidefooter-text">%s</div>""" % config_data.get("footer-text", ""))
-                h.append("""</div>""")
-            doc['zone'].html = "".join(h)
+            t = config_data.get("document-title")
+            if t:
+                setTitle(t)
+            draw_printing(doc, 'zone', page_datas, config_data)
             prettyPrint() # optional, google-code-prettify
-            for _, scripts in page_datas:
-                for script in scripts:
-                    exec(script, globals())
         </script>
     </body>
 </html>

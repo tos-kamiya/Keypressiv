@@ -11,14 +11,14 @@
         <script src="js/jquery.hammer.min.js"></script>
         <script src="js/animation.js"></script>
         <script src="brython/brython.js"></script>
+        <script src="js/utils.js"></script>
         <script type="text/javascript">
             var aspectRatio = 1.33;
             var columns = 4;
             var resizeElements = function() {
                 $('body,#bodyp').width($(window).width()).height($(window).height());
-                $('#zone0').flowtype({ "aspactRatio": aspectRatio });
-                $('#zone1').flowtype({ "aspactRatio": aspectRatio });
-                $('#slidefooter-page,#slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
+                $('#zone0,#zone1').flowtype({ "aspactRatio": aspectRatio });
+                $('.slidefooter-page,.slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
                 
                 var scaling = 1.0 / columns;
                 var elaw = $(window).width() - (5 * (columns * 2) + 2 * (columns + 1));
@@ -29,13 +29,12 @@
                 aspectRatio = newRatio;
                 resizeElements();
             };
-            var switchToSlideMode = function(pageIndex) {
+            var switchToSlideMode = function(i) {
                 $('#bodyp').fadeIn("fast");
                 $('#bodym').css('display', 'none');
                 $("body").css("overflow", "hidden");
                 resizeElements();
-                if (pageIndex !== undefined)
-                    move_page(pageIndex - cur_page_index[0]);
+                goto_page(i);
             };
             var switchToMapMode = function() {
                 $('#bodyp').css('display', 'none');
@@ -50,21 +49,18 @@
                     return "m";
                 return "";
             };
-            var bindHashchange = function(handler) {
-                $(window).on('hashchange', handler);
-            };
-
             $(function() {
                 brython();
                 resizeElements();
                 $(window).resize(function(){ resizeElements(); });
-                $("#bodyp").hammer({ "swipe_velocity": 0.3 }).on("swipeleft", function(ev) {
+                var hammerTime = $("#bodyp").hammer({ "swipe_velocity": 0.3 });
+                hammerTime.on("swipeleft", function(ev) {
+                    ev.gesture.stopDetect();
                     move_page(1);
-                    ev.gesture.stopDetect();
                 });
-                $("#bodyp").hammer({ "swipe_velocity": 0.3 }).on("swiperight", function(ev) {
-                    move_page(-1);
+                hammerTime.on("swiperight", function(ev) {
                     ev.gesture.stopDetect();
+                    move_page(-1);
                 });
             });
         </script>
@@ -75,12 +71,7 @@
             #zone0, #zone1 {
                 position: absolute;
             }
-            div#slidefooter-page {
-                position: fixed;
-                bottom: 0;
-                z-index: -2;
-            }
-            div#slidefooter-text {
+            .slidefooter-page, .slidefooter-text {
                 position: fixed;
                 bottom: 0;
                 z-index: -2;
@@ -121,13 +112,11 @@
         <!-- Optional: google-code-prettify, a syntax highlighter -->
         <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
-        <!-- Optional: title of slide -->
-        <title></title>
     </head>
     <body>
         <div id="bodyp">
-            <div id="slidefooter-page"></div>
-            <div id="slidefooter-text"></div>
+            <div class="slidefooter-page"></div>
+            <div class="slidefooter-text"></div>
             <div id='zone0'>
             </div>
             <div id='zone1' style="display:none;">
@@ -140,24 +129,20 @@
         <script type="text/python">
             from slidelib import read_pages, draw_slide, draw_minimap
 
-            def get_hash():
-                if doc.location.hash:
-                    h = doc.location.hash[1:]
-                    return h
-                return None
-
-            def set_hash_num(n):
-                doc.location.hash = n
-
             # load presentation
             pages, config_data = read_pages("presentation.md")
-            doc["slidefooter-text"].text = config_data.get("footer-text", "")
+            t = config_data.get("footer-text", "")
+            for elm in doc.get(classname="slidefooter-text"):
+                elm.text = t
             a = config_data.get("aspect-ratio")
             if a:
                 changeAspectRatio(a)
+            t = config_data.get("document-title")
+            if t:
+                setTitle(t)
 
             # get initial page number
-            h = get_hash()
+            h = getHash()
             try:
                 i = max(0, min(int(h) - 1, len(pages) - 1))
             except:
@@ -171,33 +156,32 @@
             draw_slide(doc, 'zone%d' % cur_zone_index[0], pages[i], config_data)
             draw_minimap(doc, 'zone', pages, config_data)
             prettyPrint() # optional, google-code-prettify
-            set_hash_num(i + 1)
+            setHash(i + 1)
 
             # page change functions
-            def move_page(delta):
+            def goto_page(dest_page_index):
+                newi = max(0, min(dest_page_index, len(pages) - 1))
+                delta = newi - cur_page_index[0]
                 if delta == 0:
-                    return
-                previ = i = cur_page_index[0]
-                i += delta
-                i = max(0, min(i, len(pages) - 1))
-                if i == previ:
-                    return
-                config_data.update({ "page": i + 1 })
-                zi = (cur_zone_index[0] + 1) % 2
-                czid = 'zone%d' % cur_zone_index[0]
-                nzid = 'zone%d' % zi
-                draw_slide(doc, nzid, pages[i], config_data)
-                if getCurMode() == "p" and -1 <= delta <= 1:
-                    set_sliding_animation(nzid, czid, ("right" if delta > 0 else "left"))
-                else:
-                    set_no_animation(nzid, czid)
+                    returnpage
+                config_data.update({ "page": newi + 1 })
+                czi = cur_zone_index[0]
+                nzi = (czi + 1) % 2
+                czid, nzid = 'zone%d' % czi, 'zone%d' % nzi
+                draw_slide(doc, nzid, pages[newi], config_data)
                 prettyPrint() # optional, google-code-prettify
-                cur_page_index[0] = i
-                cur_zone_index[0] = zi
-                set_hash_num(i + 1)
+                a = None
+                if delta == 1:
+                    a = "right"
+                elif delta == -1:
+                    a = "left"
+                set_sliding(nzid, czid, a)
+                cur_page_index[0] = newi
+                cur_zone_index[0] = nzi
+                setHash(newi + 1)
             
-            def goto_page(n):
-                move_page(n - cur_page_index[0])
+            def move_page(delta):
+                goto_page(cur_page_index[0] + delta)
 
             # keyboard handling
             cur_typing_string = []
@@ -205,10 +189,8 @@
             def do_keydown(e):
                 kc = e.keyCode
                 if 48 <= kc <= 105:
-                    if 48 <= kc <= 57:  # digit
-                        cur_typing_string.append(chr(ord('0') + (kc - 48)))
-                    elif 96 <= kc <= 105:  # digit
-                        cur_typing_string.append(chr(ord('0') + (kc - 96)))
+                    if 48 <= kc <= 57 or 96 <= kc <= 105:  # digit
+                        cur_typing_string.append(chr(48 + kc % 48))
                     elif 65 <= kc <= 90:  # A..Z
                         cur_typing_string.append(chr(kc - 65  + 97))
                     else:
@@ -217,24 +199,7 @@
                 elif kc == 13:  # enter
                     s = "".join(cur_typing_string)
                     cur_typing_string[:] = []
-                    if s == "s":
-                        switchToSlideMode()
-                    elif s == "m":
-                        switchToMapMode()
-                    else:
-                        try:
-                            n = int(s)
-                        except:
-                            return False
-                        if n > 0:
-                            i = n - 1
-                            s = len(pages)
-                            i = max(0, min(i, s - 1))
-                            if getCurMode() != "s":
-                                switchToSlideMode()
-                            goto_page(i)
-                        else:
-                            return False
+                    hashchange(s)
                 else:
                     cur_typing_string[:] = []
                     if 37 <= kc <= 40:  # arrow keys
@@ -251,8 +216,7 @@
             doc.bind('keydown', do_keydown)
 
             # hash handling
-            def do_hashchange(e):
-                h = get_hash()
+            def hashchange(h):
                 if h.startswith("s"):
                     switchToSlideMode()
                 elif h.startswith("m"):
@@ -265,6 +229,9 @@
                         goto_page(i)
                     except:
                         pass
+            
+            def do_hashchange(e):
+                hashchange(getHash())
 
             bindHashchange(do_hashchange)
         </script>
