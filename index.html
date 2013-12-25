@@ -29,13 +29,11 @@
                 aspectRatio = newRatio;
                 resizeElements();
             };
-            var switchToSlideMode = function(i) {
+            var switchToSlideMode = function() {
                 $('#bodyp').fadeIn("fast");
                 $('#bodym').css('display', 'none');
                 $("body").css("overflow", "hidden");
                 resizeElements();
-                if (i !== undefined)
-                    goto_page(i);
             };
             var switchToMapMode = function() {
                 $('#bodyp').css('display', 'none');
@@ -260,6 +258,8 @@
                 else:
                     try:
                         i = max(0, min(int(h) - 1, len(pages) - 1))
+                        if getCurMode() == "m":
+                            switchToSlideMode()
                         goto_page(i)
                     except:
                         pass
