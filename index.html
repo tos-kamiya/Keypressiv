@@ -29,11 +29,13 @@
                 aspectRatio = newRatio;
                 resizeElements();
             };
-            var switchToSlideMode = function() {
+            var switchToSlideMode = function(pageIndex) {
                 $('#bodyp').fadeIn("fast");
                 $('#bodym').css('display', 'none');
                 $("body").css("overflow", "hidden");
                 resizeElements();
+                if (pageIndex !== undefined)
+                    move_page(pageIndex - cur_page_index[0]);
             };
             var switchToMapMode = function() {
                 $('#bodyp').css('display', 'none');
