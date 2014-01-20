@@ -163,7 +163,7 @@
                 newi = max(0, min(dest_page_index, len(pages) - 1))
                 delta = newi - cur_page_index[0]
                 if delta == 0:
-                    return;
+                    return
                 config_data.update({ "page": newi + 1 })
                 czi = cur_zone_index[0]
                 nzi = (czi + 1) % 2
