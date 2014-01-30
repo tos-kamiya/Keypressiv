@@ -201,6 +201,9 @@
                     cur_typing_string[:] = []
                     if kc == 13:  # enter
                         hashchange(s)
+                    elif 33 <= kc <= 34:  # page up/down
+                        if getCurMode() == "p":
+                            move_page(-1 if kc == 33 else 1)
                     elif 37 <= kc <= 40:  # arrow keys
                         if getCurMode() == "p":
                             move_page(-1 if kc in (37, 38) else 1)
