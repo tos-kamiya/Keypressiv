@@ -58,8 +58,8 @@ open an URL **http://localhost:8000/printing.html**
 
 With either keyboard, mouse, or touch pad.
 
-* **[&larr;]**, **Swipe right** : previous page
-* **[&rarr;]**, **Swipe left** : next page
+* **[&larr;]**, **[Page Up]**, **Swipe right** : previous page
+* **[&rarr;]**, **[Page Down]**, **Swipe left** : next page
 * Number **[Enter]** : go to the page
 * **[M]** **[Enter]**, **[Tab]**: to Map mode
 * **[S]** **[Enter]**, **[Esc]**: to Slide mode
