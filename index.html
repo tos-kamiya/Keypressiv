@@ -19,7 +19,7 @@
                 var w = $(window).width();
                 $('body,#bodyp').width(w).height($(window).height());
                 $('#zone0,#zone1').flowtype({ "aspactRatio": aspectRatio });
-                $('.slidefooter-page,.slidefooter-text').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
+                $('.slidefooter-container').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
                 
                 var scaling = 1.0 / columns;
                 var elaw = w - (5 * (columns * 2) + 2 * (columns + 1));
@@ -113,8 +113,10 @@
     </head>
     <body>
         <div id="bodyp">
-            <div class="slidefooter-page"></div>
-            <div class="slidefooter-text"></div>
+            <div class="slidefooter-container">
+                <div class="slidefooter-page"></div>
+                <div class="slidefooter-text"></div>
+            </div>
             <div id='zone0'>
             </div>
             <div id='zone1' style="display:none;">
