@@ -50,7 +50,9 @@ open an URL **http://localhost:8000/handout.html**
 (5') To print slides, show [printing.html](printing.html), e.g.:
 open an URL **http://localhost:8000/printing.html**
 
-&rarr; and "print to PDF" to convert slides to a PDF file.
+&rarr; then save as a HTML file 
+
+&rarr; and convert it to a PDF file with a utility such as [wkhtmltopdf](https://pypi.python.org/pypi/pdfkit).
 
 !SLIDE
 
