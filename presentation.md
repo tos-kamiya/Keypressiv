@@ -30,7 +30,7 @@
 
 !SLIDE
 
-## How to Use
+## How to Use (1/2)
 
 (1) Write slide pages in **presentation.md**
 
@@ -44,18 +44,30 @@ $ python -m SimpleHTTPServer
 open an URL **http://localhost:8000**
 <br/>
 <br/>
-(4') A handout is shown in [handout.html](handout.html), e.g.:
+(4') A handout (note) is shown in [handout.html](handout.html), e.g.:
 open an URL **http://localhost:8000/handout.html**
 
-(5') To print slides, show [printing.html](printing.html), e.g.:
-open an URL **http://localhost:8000/printing.html**
+!SLIDE
 
-&rarr; then save as a HTML file (e.g., "slides.html")
+## How to Use (2/2)
 
-&rarr; and convert it to a PDF file with a utility such as [wkhtmltopdf](https://pypi.python.org/pypi/pdfkit).
+(5') To print out slides as it is, 
+
+* Show [printing.html](printing.html), e.g.: open an URL **http://localhost:8000/printing.html**
+
+* Save as a HTML file (e.g., "slides.html"), and
+
+* Convert it to a PDF file with a utility such as [wkhtmltopdf](https://pypi.python.org/pypi/pdfkit).
+
 <pre class="prettyprint">
 $ wkhtmltopdf -O Landscape slides.html slides.pdf
 </pre>
+
+### Note:
+
+* When web fonts are used in a presentation, you need to copy such font files (e.g. `font/fontawesome-webfont.ttf` in case of this presentation) in your PC's font directory (e.g. `~/.fonts`).
+
+* Appearance of a generated PDF file depends on a browser, size of a window showing the presentation, and installed fonts.
 
 !SLIDE
 
