@@ -101,10 +101,12 @@ three) if needed.
 <tr>
 <td width="50%">
 ### Left Coumn
+
 * Some long long long long long long long sentence.
 </td>
 <td width="50%">
 ### Right Coumn
+
 * Another long long long long long long long sentence.
 </td>
 </tr>
@@ -115,9 +117,11 @@ three) if needed.
 ## Image
 
 * in an auto resizing manner
+
 <img style="width:50%;" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
 
 * in a size-fixed manner
+
 <img style="width:320px;" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
 
 Image: [Play of fireworks and night scenes in hakodate](http://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Play_of_fireworks_and_night_scenes_in_Hakodate.jpg) Cc-by-sa-3.0,2.5,2.0,1.0
