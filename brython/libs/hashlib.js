@@ -1,4 +1,10 @@
-$module = {
+var $module = (function($B){
+
+var __builtins__ = $B.builtins
+for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+
+var $mod = {
+
     __getattr__ : function(attr){
         if (attr == 'new') {return $hashlib_new;}
         return this[attr]
@@ -33,13 +39,13 @@ function $get_CryptoJS_lib(alg) {
         }
    }
 
-   $xmlhttp.open('GET', __BRYTHON__.brython_path+'libs/crypto_js/rollups/'+alg+'.js'+fake_qs,false)
+   $xmlhttp.open('GET', $B.brython_path+'libs/crypto_js/rollups/'+alg+'.js'+fake_qs,false)
    if('overrideMimeType' in $xmlhttp){$xmlhttp.overrideMimeType("text/plain")}
    $xmlhttp.send()
    if(res.constructor===Error){throw res} // module not found
 
    try{
-      eval(res + "; __BRYTHON__.CryptoJS=CryptoJS;")
+      eval(res + "; $B.CryptoJS=CryptoJS;")
    } catch (err) { 
       throw Error("JS Eval Error", "Cannot eval CryptoJS algorithm '" + alg + "' : error:" + err);
    }
@@ -47,34 +53,34 @@ function $get_CryptoJS_lib(alg) {
 
 function $hashlib_new(alg) {
     if (alg == 'md5') {
-       if (__BRYTHON__.Crypto === undefined || 
-           __BRYTHON__.CryptoJS.algo.MD5 === undefined) $get_CryptoJS_lib('md5')
-       this.hash = __BRYTHON__.CryptoJS.algo.MD5.create()
+       if ($B.Crypto === undefined || 
+           $B.CryptoJS.algo.MD5 === undefined) $get_CryptoJS_lib('md5')
+       this.hash = $B.CryptoJS.algo.MD5.create()
     } else if (alg == 'sha1') {
-       if (__BRYTHON__.Crypto === undefined || 
-           __BRYTHON__.CryptoJS.algo.SHA1 === undefined) $get_CryptoJS_lib('sha1')
-       this.hash = __BRYTHON__.CryptoJS.algo.SHA1.create()
+       if ($B.Crypto === undefined || 
+           $B.CryptoJS.algo.SHA1 === undefined) $get_CryptoJS_lib('sha1')
+       this.hash = $B.CryptoJS.algo.SHA1.create()
     } else if (alg == 'sha224') {
-       if (__BRYTHON__.Crypto === undefined || 
-           __BRYTHON__.CryptoJS.algo.SHA224 === undefined) $get_CryptoJS_lib('sha224')
-       this.hash = __BRYTHON__.CryptoJS.algo.SHA224.create()
+       if ($B.Crypto === undefined || 
+           $B.CryptoJS.algo.SHA224 === undefined) $get_CryptoJS_lib('sha224')
+       this.hash = $B.CryptoJS.algo.SHA224.create()
     } else if (alg == 'sha256') {
-       if (__BRYTHON__.Crypto === undefined || 
-           __BRYTHON__.CryptoJS.algo.SHA256 === undefined) $get_CryptoJS_lib('sha256')
-       this.hash = __BRYTHON__.CryptoJS.algo.SHA256.create()
+       if ($B.Crypto === undefined || 
+           $B.CryptoJS.algo.SHA256 === undefined) $get_CryptoJS_lib('sha256')
+       this.hash = $B.CryptoJS.algo.SHA256.create()
     } else if (alg == 'sha384') {
-       if (__BRYTHON__.Crypto === undefined || 
-           __BRYTHON__.CryptoJS.algo.SHA384 === undefined) $get_CryptoJS_lib('sha384')
-       this.hash = __BRYTHON__.CryptoJS.algo.SHA384.create()
+       if ($B.Crypto === undefined || 
+           $B.CryptoJS.algo.SHA384 === undefined) $get_CryptoJS_lib('sha384')
+       this.hash = $B.CryptoJS.algo.SHA384.create()
     } else if (alg == 'sha512') {
-       if (__BRYTHON__.Crypto === undefined || 
-           __BRYTHON__.CryptoJS.algo.SHA512 === undefined) $get_CryptoJS_lib('sha512')
-       this.hash = __BRYTHON__.CryptoJS.algo.SHA512.create()
+       if ($B.Crypto === undefined || 
+           $B.CryptoJS.algo.SHA512 === undefined) $get_CryptoJS_lib('sha512')
+       this.hash = $B.CryptoJS.algo.SHA512.create()
     } else {
        $raise('AttributeError', 'Invalid hash algorithm:' + alg)
     }
  
-    this.__class__ = $type
+    this.__class__ = __BRYTHON__.$type
     this.__getattr__ = function(attr){return $getattr(this,attr)}
     this.__str__ = function(){return this.hexdigest()}
     this.update = function(msg){this.hash.update(msg)}
@@ -89,5 +95,6 @@ function $hashlib_new(alg) {
     return this;
 }
 
-$module.__class__ = $module
-$module.__str__ = function() {return "<module 'hashlib'>"}
+return $mod
+
+})(__BRYTHON__)

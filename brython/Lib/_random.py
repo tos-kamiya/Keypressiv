@@ -1,4 +1,5 @@
 import _os
+from os import urandom as _urandom
 class Random:
     """Random number generator base class used by bound module functions.
 

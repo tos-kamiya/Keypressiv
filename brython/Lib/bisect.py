@@ -85,9 +85,8 @@ def bisect_left(a, x, lo=0, hi=None):
         else: hi = mid
     return lo
 
-# dont' need this for brython
 # Overwrite above definitions with a fast C implementation
-#try:
-#    from _bisect import *
-#except ImportError:
-#    pass
+try:
+    from _bisect import *
+except ImportError:
+    pass

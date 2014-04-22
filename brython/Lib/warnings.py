@@ -28,7 +28,6 @@ def formatwarning(message, category, filename, lineno, line=None):
         s += "  %s\n" % line
     return s
 
-#fixme brython  builtin Warning class not defined
 def filterwarnings(action, message="", category=Warning, module="", lineno=0,
                    append=False):
     """Insert an entry into the list of warnings filters (at the front).
@@ -173,10 +172,7 @@ def warn(message, category=None, stacklevel=1):
     except ValueError:
         globals = sys.__dict__
         lineno = 1
-        caller=None
-    #fixme brython error
     else:
-        #if caller is not None:
         globals = caller.f_globals
         lineno = caller.f_lineno
     if '__name__' in globals:
@@ -228,9 +224,8 @@ def warn_explicit(message, category, filename, lineno,
             (mod is None or mod.match(module)) and
             (ln == 0 or lineno == ln)):
             break
-    #fixme brython
-    #else:
-    #    action = defaultaction
+    else:
+        action = defaultaction
     # Early exit actions
     if action == "ignore":
         registry[key] = 1
@@ -308,8 +303,7 @@ class catch_warnings(object):
 
     """
 
-    #def __init__(self, *, record=False, module=None):  BE modified
-    def __init__(self, record=False, module=None):
+    def __init__(self, *, record=False, module=None):
         """Specify whether to record warnings and if an alternative module
         should be used other than sys.modules['warnings'].
 
@@ -396,5 +390,4 @@ if not _warnings_defaults:
         resource_action = "ignore"
     simplefilter(resource_action, category=ResourceWarning, append=1)
 
-#fixme brython Error: _warnings_defaults is not defined
-#del _warnings_defaults
+del _warnings_defaults

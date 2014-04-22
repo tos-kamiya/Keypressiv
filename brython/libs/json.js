@@ -1,3 +1,8 @@
+var $module = (function($B){
+
+var __builtins__ = $B.builtins
+for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+
 function _py(obj){
     if(obj===null){return None}
     if(isinstance(obj,list)){
@@ -23,7 +28,7 @@ function _py(obj){
         }
         return res
     }
-    return JSObject(obj)
+    return $B.JSObject(obj)
 }
 function _js(obj){
     // obj is a Python object
@@ -47,11 +52,11 @@ function _js(obj){
     }
 }
 
-$module =  {
-
-    __getattr__ : function(attr){return this[attr]},
+return  {
 
     loads : function(json_obj){return _py(JSON.parse(json_obj))},
 
-    dumps : function(obj){console.log('dumps');return JSON.stringify(_js(obj))},
+    dumps : function(obj){return JSON.stringify(_js(obj))},
 }
+
+})(__BRYTHON__)

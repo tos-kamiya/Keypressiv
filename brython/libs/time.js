@@ -1,10 +1,13 @@
-$module =  {
+var $module = (function($B){
 
-    __getattr__ : function(attr){return this[attr]},
-    
+var __builtins__ = $B.builtins
+for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+var JSObject = $B.JSObject
+
+
+return  {
+
     __name__ : 'time',
-
-    clear_interval : function(int_id){window.clearInterval(int_id)},
 
     ctime: function(timestamp){
        if (timestamp === undefined) {
@@ -14,17 +17,16 @@ $module =  {
        d.setUTCSeconds(timestamp);
        return d.toUTCString();
     },
-
+    gmtime: function(){
+       var d=new Date();
+       return [d.getUTCFullYear(), d.getUTCMonth()+1, d.getUTCDate(), 
+               d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), 
+               d.getUTCDay(), 0, 0]
+    },
     perf_counter: function() {
         return float((new Date()).getTime()/1000.0);
     },
     
-    set_interval : function(func,interval){
-        return int(window.setInterval(func,interval))
-    },
-
-    set_timeout : function(func,interval){window.setTimeout(func,interval)},
-
     localtime : function(secs){ 
        var d=new Date();
        if (secs === undefined || secs === None) {return d.getTime()}
@@ -35,11 +37,13 @@ $module =  {
        var jul = new Date(d.getFullYear(), 6, 1);
        var dst=int(d.getTimezoneOffset() < Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()));
 
-       return list([d.getFullYear(), d.getMonth()+1, d.getDate(), d.getHours(),
-                    d.getMinutes(), d.getSeconds(), d.getDay(), 0, dst])
+       return [d.getFullYear(), d.getMonth()+1, d.getDate(), d.getHours(),
+                    d.getMinutes(), d.getSeconds(), d.getDay(), 0, dst]
        //fixme  (second to last value is 0 which is the number of days in this year..)
     },
     time : function(){return float((new Date().getTime())/1000)},
+    
+    sleep : function(secs){},
     
     strftime : function(format,arg){
         function ns(arg,nb){
@@ -76,6 +80,8 @@ $module =  {
     },
     
     struct_time : function(arg){
+        console.log('struct time')
+        console.log('list '+list)
         if(!isinstance(arg,[tuple,list])){
             throw TypeError('constructor requires a sequence')
         }
@@ -83,7 +89,6 @@ $module =  {
             throw TypeError("time.struct_time() takes a 9-sequence ("+len(arg)+"-sequence given")
         }
         var res = arg
-        console.log(res.__getitem__[0])
         var names = ['tm_year','tm_mon','tm_mday','tm_hour','tm_min','tm_sec','tm_wday',
             'tm_yday','tm_isdst','tm_zone','tm_gmtoff']
         res.__getattr__ = function(attr){
@@ -100,3 +105,5 @@ $module =  {
         return res
     }
 }
+
+})(__BRYTHON__)
