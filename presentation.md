@@ -35,9 +35,9 @@
 (1) Write slide pages in **presentation.md**
 
 (2) Run a HTTP file server, e.g.,:
-<pre>
-  $ cd (presentation.md's directory)
-  $ python -m SimpleHTTPServer
+<pre class="prettyprint">
+$ cd (directory of presentation.md)<br/>
+$ python -m SimpleHTTPServer
 </pre>
 
 (3) Open it with a web browser, e.g.,:
@@ -50,9 +50,12 @@ open an URL **http://localhost:8000/handout.html**
 (5') To print slides, show [printing.html](printing.html), e.g.:
 open an URL **http://localhost:8000/printing.html**
 
-&rarr; then save as a HTML file 
+&rarr; then save as a HTML file (e.g., "slides.html")
 
 &rarr; and convert it to a PDF file with a utility such as [wkhtmltopdf](https://pypi.python.org/pypi/pdfkit).
+<pre class="prettyprint">
+$ wkhtmltopdf -O Landscape slides.html slides.pdf
+</pre>
 
 !SLIDE
 
