@@ -3,7 +3,7 @@ var bindHashchange = function(handler) {
 };
 
 var setTitle = function(title) {
-    $("title").text(title);
+    $(document).attr("title", title);
 };
 
 var getHash = function() {
