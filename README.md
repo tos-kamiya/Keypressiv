@@ -20,6 +20,6 @@ Step 1. Clone the repo
 $ git clone https://github.com/tos-kamiya/Keypressiv.git /path/to/presen
 ```
 
-Step 2. Open the directory `/path/to/presen` with a HTML editor having a live preview, e.g. [Brackts](http://brackets.io/)
+Step 2. Open the directory `/path/to/presen` with a HTML editor having a live preview, e.g. [Brackets](http://brackets.io/)
 
 Step 3. Edit `presentation.md` and show `index.html` in a live preview
