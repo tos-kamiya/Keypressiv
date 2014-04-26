@@ -14,17 +14,20 @@ or see this usage as [a sample presentation](http://tos-kamiya.github.io/Keypres
 
 ## Make your own presentation with Keypressiv
 
-Step 1. clone the repo
+Step 1. Clone the repo
 
 ```bash
-$ mkdir /path/of/presen
+$ git clone https://github.com/tos-kamiya/Keypressiv.git /path/to/presen
 $ cd /path/of/presen
-$ git clone https://github.com/tos-kamiya/Keypressiv.git
 ```
 
-Step 2. modify presentation.md
+Step 2. Edit presentation.md
 
-Step 3. serve index.html by a Http server
+```bash
+$ gedit presentation.md
+```
+
+Step 3. Serve index.html by a Http server
 
 ```bash
 $ python -m SimpleHTTPServer
