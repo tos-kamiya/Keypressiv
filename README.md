@@ -12,3 +12,20 @@ A keydown-inspired markdown-based presentation tool.
 Read [presentation.md](presentation.md) for usage,
 or see this usage as [a sample presentation](http://tos-kamiya.github.io/Keypressiv/).
 
+## Make your own presentation with Keypressiv
+
+Step 1. clone the repo
+
+```bash
+$ mkdir /path/of/presen
+$ cd /path/of/presen
+$ git clone https://github.com/tos-kamiya/Keypressiv.git
+```
+
+Step 2. modify presentation.md
+
+Step 3. serve index.html by a Http server
+
+```bash
+$ python -m SimpleHTTPServer
+```
