@@ -27,8 +27,11 @@ Step 2. Edit `presentation.md`
 $ gedit presentation.md
 ```
 
-Step 3. Serve `index.html` with a Http server
+Step 3. Serve the presentation and browse it with a web browser
 
 ```bash
 $ python -m SimpleHTTPServer
+Serving HTTP on 0.0.0.0 port 8000 ...
 ```
+
+Open a URL `localhost:8000` with a web browser.
