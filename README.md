@@ -21,13 +21,13 @@ $ git clone https://github.com/tos-kamiya/Keypressiv.git /path/to/presen
 $ cd /path/of/presen
 ```
 
-Step 2. Edit presentation.md
+Step 2. Edit `presentation.md`
 
 ```bash
 $ gedit presentation.md
 ```
 
-Step 3. Serve index.html by a Http server
+Step 3. Serve `index.html` with a Http server
 
 ```bash
 $ python -m SimpleHTTPServer
