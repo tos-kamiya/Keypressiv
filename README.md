@@ -18,7 +18,7 @@ Step 1. Clone the repo
 
 ```bash
 $ git clone https://github.com/tos-kamiya/Keypressiv.git /path/to/presen
-$ cd /path/of/presen
+$ cd /path/to/presen
 ```
 
 Step 2. Edit `presentation.md`
