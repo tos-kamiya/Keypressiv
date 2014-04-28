@@ -13,26 +13,32 @@ body {
 h1,h2,h3,h4,h5,h6,p {
     font-family: inherit;
     font-size: inherit;
+    line-height: 1.1em;
 }
 h5 {
     font-size: 1.05em;
-    line-height: 1.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 }
 h4 {
     font-size: 1.2em;
-    line-height: 1.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 }
 h3 {
     font-size: 1.3em;
-    line-height: 1.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
 }
 h2 {
     font-size: 1.5em;
-    line-height: 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 h1 {
     font-size: 2em;
-    line-height: 1.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 li {
