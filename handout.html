@@ -32,7 +32,7 @@
             from browser import doc
             from slidelib import read_pages, draw_handout
 
-            page_datas, config_data = read_pages("presentation.md")
+            page_datas, config_data, page_options = read_pages("presentation.md")
             t = config_data.get("document-title")
             if t:
                 setTitle(t)

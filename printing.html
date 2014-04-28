@@ -53,7 +53,7 @@
             from browser import doc
             from slidelib import read_pages, draw_printing
 
-            page_datas, config_data = read_pages("presentation.md")
+            page_datas, config_data, page_options = read_pages("presentation.md")
             a = config_data.get("aspect-ratio")
             if a:
                 changeAspectRatio(a)
