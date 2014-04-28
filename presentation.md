@@ -46,12 +46,15 @@ open an URL **http://localhost:8000**
 <br/>
 (4') A handout (note) is shown in [handout.html](handout.html), e.g.:
 open an URL **http://localhost:8000/handout.html**
+<br/>
+<br/>
+(5') To print out slides as it is, save as PDF in the web browser, OR...
 
 !SLIDE
 
 ## How to Use (2/2)
 
-(5') To print out slides as it is, 
+(5'') To print out slides as it is, 
 
 * Show [printing.html](printing.html), e.g.: open an URL **http://localhost:8000/printing.html**
 
@@ -128,21 +131,27 @@ three) if needed.
 
 ## Image
 
-* in an auto resizing manner
+<img style="width:50%;float:right;" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
 
-<img style="width:50%;" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
+* in an auto resizing manner
+  + The image size is relative to window size.
+
+<div style="clear:both;"></div>
+
+<img style="width:320px;float:right" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
 
 * in a size-fixed manner
+  + The image size is specified in pixel.
 
-<img style="width:320px;" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
+<div style="clear:both;"></div>
 
 Image: [Play of fireworks and night scenes in hakodate](http://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Play_of_fireworks_and_night_scenes_in_Hakodate.jpg) Cc-by-sa-3.0,2.5,2.0,1.0
 
 !SLIDE
 
-## Table
+## Table, CSS
 
-* A table with CSS3
+* A table with a custom style
 
 <!-- ref: http://stackoverflow.com/questions/4932181/rounded-table-corners-css-only -->
 <style>
@@ -191,6 +200,8 @@ border-radius: 0 0 0 8px;
 
 ## Syntax Highlighting
 
+* Syntax highlighting is done by a pre-tag with a special code-prettifying class.
+
 <pre class="prettyprint lang-js">
     /* A sample of syntax highlighting */
     function plusOne(n) {
@@ -202,8 +213,11 @@ border-radius: 0 0 0 8px;
 
 ## Page transition animation
 
-* A page-sliding animation style is not applied this page.
-* Do you notice that?
+* No page-sliding animation is applied this page. 
+<br/><br/>
+Did you notice that?
+<br/><br/>
+* To make such a non-sliding page, add "no-animation" to a page separator "!SLIDE".
 
 !SLIDE
 <br/>
