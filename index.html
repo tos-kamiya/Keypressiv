@@ -131,7 +131,9 @@
             from slidelib import read_pages, draw_slide, draw_minimap
 
             # load presentation
-            pages, config_data = read_pages("presentation.md")
+            pages, config_data, page_options = read_pages("presentation.md")
+            while len(page_options) < len(pages) + 1:
+                page_options.append([])
             t = config_data.get("footer-text", "")
             for elm in doc.get(classname="slidefooter-text"):
                 elm.text = t
@@ -175,9 +177,11 @@
                 prettyPrint() # optional, google-code-prettify
                 a = None
                 if delta == 1:
-                    a = "right"
+                    if "no-animation" not in page_options[newi]:
+                        a = "right"
                 elif delta == -1:
-                    a = "left"
+                    if "no-animation" not in page_options[newi + 1]:
+                        a = "left"
                 set_sliding(nzid, czid, a)
                 cur_page_index[0] = newi
                 cur_zone_index[0] = nzi

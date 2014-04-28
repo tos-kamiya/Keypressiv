@@ -198,6 +198,13 @@ border-radius: 0 0 0 8px;
     }
 </pre>
 
+!SLIDE no-animation
+
+## Page transition animation
+
+* A page-sliding animation style is not applied this page.
+* Do you notice that?
+
 !SLIDE
 <br/>
 <br/>
