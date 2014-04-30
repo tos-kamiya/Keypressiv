@@ -127,7 +127,7 @@
             </div>
         </div>
         <script type="text/python">
-            from browser import doc
+            from browser import doc, window
             from slidelib import read_pages, draw_slide, draw_minimap
 
             # load presentation
@@ -240,6 +240,8 @@
                 hashchange(getHash())
 
             bindHashchange(do_hashchange)
+
+            window.goto_page = goto_page  # make it accessible from javascript
         </script>
     </body>
 </html>
