@@ -126,7 +126,7 @@
             </div>
         </div>
         <script type="text/python">
-            from browser import doc, window
+            from browser import doc, window, console
             from slidelib import read_pages, draw_slide, draw_minimap
 
             # load presentation
@@ -143,6 +143,8 @@
             if t:
                 setTitle(t)
             def clip_to_page_index(h):
+                if not (h and '0' <= h <= '9'):
+                    return None
                 try:
                     i = int(h)
                 except:
@@ -216,7 +218,7 @@
                     elif kc == 9:  # Tab
                         switchToMapMode()
                     elif kc == 27:  # Esc
-                        switchToSlideMode()
+                        switchToSlideMode(cur_page_index)
                     else:
                         return False
                 return True  # consume event
@@ -228,10 +230,10 @@
                 i = clip_to_page_index(h)
                 if i is not None:
                     if getCurMode() == "m":
-                        switchToSlideMode()
+                        switchToSlideMode(i)
                     goto_page(i)
                 elif h.startswith("s"):
-                    switchToSlideMode()
+                    switchToSlideMode(cur_page_index)
                 elif h.startswith("m"):
                     switchToMapMode()
             
