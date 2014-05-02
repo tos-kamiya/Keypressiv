@@ -107,7 +107,6 @@
             }
         </style>
 
-        <!-- Optional: google-code-prettify, a syntax highlighter -->
         <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
     </head>
@@ -160,7 +159,7 @@
             config_data.update({ "page": i + 1 })
             draw_slide(doc, 'zone%d' % cur_zone_index[0], pages[i], config_data)
             draw_minimap(doc, 'zone', pages, config_data)
-            prettyPrint() # optional, google-code-prettify
+            prettyPrint()
             setHash(i + 1)
 
             # page change functions
@@ -174,7 +173,7 @@
                 nzi = (czi + 1) % 2
                 czid, nzid = 'zone%d' % czi, 'zone%d' % nzi
                 draw_slide(doc, nzid, pages[newi], config_data)
-                prettyPrint() # optional, google-code-prettify
+                prettyPrint()
                 a = None
                 if delta == 1:
                     if "no-animation" not in page_options[newi]:
@@ -240,8 +239,10 @@
                 hashchange(getHash())
 
             bindHashchange(do_hashchange)
-
-            window.goto_page = goto_page  # make it accessible from javascript
+            
+            # make functions accessible from javascript
+            window.goto_page = goto_page
+            window.move_page = move_page
         </script>
     </body>
 </html>

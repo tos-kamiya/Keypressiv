@@ -1,41 +1,69 @@
-from browser import doc, markdown
+from browser import doc, markdown, console
+import html
 import json
 
 SLIDE_OPTIONS = ("no-animation",)
 
+def escape_code_block(code_spec, code_lines):
+    s = "<br/>".join(map(html.escape, code_lines))
+    c = "prettyprint"
+    if code_spec:
+        c = c + " lang-" + code_spec
+    return """<pre class="%s">%s</pre>""" % (c, s)
+
 def read_pages(presentation_file):
     lines = open(presentation_file).readlines()
     footer_text = None
-    pages = []
+    page_datas = []
     page_options = []
-    pls = []
+    page_htmls = []
+    page_scripts = []
+    code_spec, code_block = None, []
+    text_block = []
     config_data = None
     in_header = True
+
+    def flash_text_block():
+        marked, scripts = markdown.mark('\n'.join(text_block))
+        page_htmls.append(marked)
+        page_scripts.extend(scripts)
+        text_block[:] = []
+
+    if lines and not lines[-1].startswith("!SLIDE"):
+        lines.append("!SLIDE")  # sentinel
+
     for li, L in enumerate(lines):
         if L.startswith("!SLIDE"):
-            if pls:
+            if code_spec is not None:
+                page_htmls.append(escape_code_block(code_spec, code_block))
+                code_spec, code_block = None, []
+            if text_block:
                 if in_header:
-                    config_data = json.loads(''.join(pls))
+                    config_data = json.loads(''.join(text_block))
+                    text_block[:] = []
                 else:
-                    pages.append('\n'.join(pls))
-            pls = []
+                    flash_text_block()
+                    page_datas.append(('\n'.join(page_htmls), page_scripts))
             option_strs = L.split()[1:]
             for s in option_strs:
                 if s not in SLIDE_OPTIONS:
                     console.log("line %d: invalid option found" % (li + 1))
             page_options.append(option_strs)
             in_header = False
+            page_htmls = []
+        elif L.startswith("```"):
+            if text_block:
+                flash_text_block()
+            if code_spec is None:
+                code_spec, code_block = L[len("```"):].strip(), []
+            else:
+                page_htmls.append(escape_code_block(code_spec, code_block))
+                code_spec, code_block = None, []
         else:
-            pls.append(L)
-    if in_header:
-        config_data = json.loads(''.join(pls))
-    else:
-        pages.append('\n'.join(pls))
-
-    page_datas = []
-    for page in pages:
-        mk, scripts = markdown.mark(page)
-        page_datas.append((mk, scripts))
+            if code_spec is not None:
+                code_block.append(L)
+            else:
+                text_block.append(L)
 
     return page_datas, config_data, page_options
 
