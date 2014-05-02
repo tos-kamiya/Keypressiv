@@ -200,14 +200,20 @@ border-radius: 0 0 0 8px;
 
 ## Syntax Highlighting
 
-* Syntax highlighting is done by a pre-tag with a special code-prettifying class.
+* gfm-like code block (\`\`\` ... \`\`\`) is available (new v1.1).
 
-<pre class="prettyprint lang-js">
-    /* A sample of syntax highlighting */
-    function plusOne(n) {
-        return n + 1;
-    }
-</pre>
+```js
+/* A sample of syntax highlighting */
+function decrimentToZero(n) {
+    if (n > 0)
+        return n - 1;
+    else
+        return 0;
+}
+```
+
+* Supported languages are: sh, c, cc, java, js, coffee, pl, py, sql, xml, html, lua, vb, hs, ml, el, cs, vhdl, yaml, scala, go, erlang, etc.
+  * syntax highlighting is done with [google-code-prettify](https://code.google.com/p/google-code-prettify/).
 
 !SLIDE no-animation
 
