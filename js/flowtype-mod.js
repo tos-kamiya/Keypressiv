@@ -12,7 +12,7 @@
 * Thanks to Giovanni Difeterici (http://www.gdifeterici.com/)
 */
 
-/* modified by Toshihiro Kamiya 2013-11-27, 2013-12-07, 2013-12-20 */
+/* modified by Toshihiro Kamiya 2013-11-27, 2013-12-07, 2013-12-20, 2014-05-09 */
 
 (function($) {
    $.fn.flowtype = function(options) {
@@ -34,8 +34,8 @@
 // =================
       changes = function(el) {
          var $el = $(el),
-            elah = $(window).height(),
-            elaw = $(window).width();
+            elah = $(document).height(),
+            elaw = $(document).width();
          var elw = elaw,
              elh = elah;
          if (settings.aspectRatio != null) {
