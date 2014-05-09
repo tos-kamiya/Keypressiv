@@ -63,14 +63,12 @@ open an URL **http://localhost:8000/handout.html**
 * Convert it to a PDF file with a utility such as [wkhtmltopdf](https://pypi.python.org/pypi/pdfkit).
 
 <pre class="prettyprint">
-$ wkhtmltopdf -O Landscape slides.html slides.pdf
+$ wkhtmltopdf -O Landscape -T 0 -B 0 slides.html slides.pdf
 </pre>
 
 ### Note:
 
 * When web fonts are used in a presentation, you need to copy such font files (e.g. `font/fontawesome-webfont.ttf` in case of this presentation) in your PC's font directory (e.g. `~/.fonts`).
-
-* Appearance of a generated PDF file depends on a browser, size of a window showing the presentation, and installed fonts.
 
 !SLIDE
 
