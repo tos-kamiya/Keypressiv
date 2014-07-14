@@ -30,7 +30,7 @@
 
 !SLIDE
 
-## How to Use (1/2)
+## How to Use
 
 (1) Write slide pages in **presentation.md**
 
@@ -50,9 +50,9 @@ open an URL **http://localhost:8000/handout.html**
 <br/>
 (5') To print out slides as it is, save as PDF in the web browser, OR...
 
-!SLIDE
+!SLIDE trans-vert
 
-## How to Use (2/2)
+## How to Use (cont'd)
 
 (5'') To print out slides as it is, 
 
@@ -213,15 +213,13 @@ function decrimentToZero(n) {
 * Supported languages are: sh, c, cc, java, js, coffee, pl, py, sql, xml, html, lua, vb, hs, ml, el, cs, vhdl, yaml, scala, go, erlang, etc.
   * syntax highlighting is done with [google-code-prettify](https://code.google.com/p/google-code-prettify/).
 
-!SLIDE no-animation
+!SLIDE trans-none
 
 ## Page transition animation
 
-* No page-sliding animation is applied this page. 
-<br/><br/>
-Did you notice that?
-<br/><br/>
-* To make such a non-sliding page, add "no-animation" to a page separator "!SLIDE".
+* The default page-transition animation is a horizontal sliding.
+* By specifying "!SLIDE trans-none" in top of a page description, no page-transition animation (like this slide).
+* By specifying "!SLIDE trans-vert" in top of a page description, a vartical sliding is applied.
 
 !SLIDE
 <br/>

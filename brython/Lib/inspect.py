@@ -878,6 +878,7 @@ def formatannotationrelativeto(object):
         return formatannotation(annotation, module)
     return _formatannotation
 
+#brython fix me
 def formatargspec(args, varargs=None, varkw=None, defaults=None,
                   kwonlyargs=(), kwonlydefaults={}, annotations={},
                   formatarg=str,
@@ -925,28 +926,29 @@ def formatargspec(args, varargs=None, varkw=None, defaults=None,
         result += formatreturns(formatannotation(annotations['return']))
     return result
 
-def formatargvalues(args, varargs, varkw, locals,
-                    formatarg=str,
-                    formatvarargs=lambda name: '*' + name,
-                    formatvarkw=lambda name: '**' + name,
-                    formatvalue=lambda value: '=' + repr(value)):
-    """Format an argument spec from the 4 values returned by getargvalues.
+#brython fix me
+#def formatargvalues(args, varargs, varkw, locals,
+#                    formatarg=str,
+#                    formatvarargs=lambda name: '*' + name,
+#                    formatvarkw=lambda name: '**' + name,
+#                    formatvalue=lambda value: '=' + repr(value)):
+#    """Format an argument spec from the 4 values returned by getargvalues.
 
-    The first four arguments are (args, varargs, varkw, locals).  The
-    next four arguments are the corresponding optional formatting functions
-    that are called to turn names and values into strings.  The ninth
-    argument is an optional function to format the sequence of arguments."""
-    def convert(name, locals=locals,
-                formatarg=formatarg, formatvalue=formatvalue):
-        return formatarg(name) + formatvalue(locals[name])
-    specs = []
-    for i in range(len(args)):
-        specs.append(convert(args[i]))
-    if varargs:
-        specs.append(formatvarargs(varargs) + formatvalue(locals[varargs]))
-    if varkw:
-        specs.append(formatvarkw(varkw) + formatvalue(locals[varkw]))
-    return '(' + ', '.join(specs) + ')'
+#    The first four arguments are (args, varargs, varkw, locals).  The
+#    next four arguments are the corresponding optional formatting functions
+#    that are called to turn names and values into strings.  The ninth
+#    argument is an optional function to format the sequence of arguments."""
+#    def convert(name, locals=locals,
+#                formatarg=formatarg, formatvalue=formatvalue):
+#        return formatarg(name) + formatvalue(locals[name])
+#    specs = []
+#    for i in range(len(args)):
+#        specs.append(convert(args[i]))
+#    if varargs:
+#        specs.append(formatvarargs(varargs) + formatvalue(locals[varargs]))
+#    if varkw:
+#        specs.append(formatvarkw(varkw) + formatvalue(locals[varkw]))
+#    return '(' + ', '.join(specs) + ')'
 
 def _missing_arguments(f_name, argnames, pos, values):
     names = [repr(name) for name in argnames if name not in values]

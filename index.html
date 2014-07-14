@@ -17,7 +17,8 @@
             var columns = 4;
             var resizeElements = function() {
                 var w = $(window).width();
-                $('body,#bodyp').width(w).height($(window).height());
+                var h = $(window).height();
+                $('body,#bodyp').width(w).height(h);
                 $('#zone0,#zone1').flowtype({ "aspactRatio": aspectRatio });
                 $('.slidefooter-container').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
                 
@@ -126,7 +127,7 @@
             </div>
         </div>
         <script type="text/python">
-            from browser import doc, window, console
+            from browser import doc, window
             from slidelib import read_pages, draw_slide, draw_minimap
 
             # load presentation
@@ -178,10 +179,16 @@
                 prettyPrint()
                 a = None
                 if delta == 1:
-                    if "no-animation" not in page_options[newi]:
+                    attrs = page_options[newi]
+                    if "trans-vert" in attrs:
+                        a = "bottom"
+                    elif "trans-none" not in attrs:
                         a = "right"
                 elif delta == -1:
-                    if "no-animation" not in page_options[newi + 1]:
+                    attrs = page_options[newi + 1]
+                    if "trans-vert" in attrs:
+                        a = "top"
+                    elif "trans-none" not in attrs:
                         a = "left"
                 set_sliding(nzid, czid, a)
                 cur_page_index[0] = newi
