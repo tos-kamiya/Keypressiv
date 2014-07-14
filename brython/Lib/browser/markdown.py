@@ -108,9 +108,15 @@ def mark(src):
                 i += 1
             ul = nb
         elif ul and not lines[i].strip():
-            lines.insert(i,'</ul>'*ul)
-            i += 1
-            ul = 0
+            if i<len(lines)-1 and lines[i+1].strip() \
+                and not lines[i+1].startswith(' '):
+                    nline = lines[i+1].lstrip()
+                    if nline[0] in '-+*' and len(nline)>1 and nline[1]==' ':
+                        pass
+                    else:
+                        lines.insert(i,'</ul>'*ul)
+                        i += 1
+                        ul = 0
 
         # ordered lists
         mo = re.search(r'^(\d+\.)',lines[i])
@@ -120,7 +126,9 @@ def mark(src):
                 i += 1
             lines[i] = '<li>'+lines[i][len(mo.groups()[0]):]
             ol = 1
-        elif ol and not lines.strip():
+        elif ol and not lines[i].strip() and i<len(lines)-1 \
+            and not lines[i+1].startswith(' ') \
+            and not re.search(r'^(\d+\.)',lines[i+1]):
             lines.insert(i,'</ol>')
             i += 1
             ol = 0
@@ -239,6 +247,7 @@ def s_unmark(mo):
 def apply_markdown(src):
 
     scripts = []
+    key = None
 
     i = 0
     while i<len(src):
@@ -296,7 +305,7 @@ def apply_markdown(src):
 
     # We replace them temporarily by a random string
     rstr = ''.join(random.choice(letters) for i in range(16))
-
+    
     i = 0
     state = None
     start = -1
@@ -309,7 +318,7 @@ def apply_markdown(src):
                 if src[j]=='"' or src[j]=="'":
                     if state==src[j] and src[j-1]!='\\':
                         state = None
-                        src = src[:start+1]+data+src[j:]
+                        #src = src[:start+1]+data+src[j:]
                         j = start+len(data)+1
                         data = ''
                     elif state==None:
@@ -324,6 +333,12 @@ def apply_markdown(src):
                     break
                 elif state=='"' or state=="'":
                     data += src[j]
+                elif src[j]=='\n':
+                    # if a sign < is not followed by > in the same ligne, it
+                    # is the sign "lesser than"
+                    src = src[:i]+'&lt;'+src[i+1:]
+                    j=i+4
+                    break
                 j += 1
             #i = j
         elif src[i]=='`' and i>0 and src[i-1]!='\\':
