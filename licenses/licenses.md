@@ -1,8 +1,8 @@
-## Keypressive
+## Keypressiv
 https://github.com/tos-kamiya/Keypressiv
 The MIT License
 
-## Brython 1.2-20131109-201900
+## Brython 2.1.3-20140704-213726
 http://www.brython.info/
 The BSD 3-Clause License
 
@@ -14,7 +14,7 @@ The Public Domain
 http://simplefocus.com/flowtype/
 The MIT License 
 
-## jQuery 2.0.3
+## jQuery 2.1.3
 http://jquery.com/
 The MIT License 
 
