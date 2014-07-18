@@ -126,8 +126,9 @@ three) if needed.
 </table>
 
 !SLIDE
+<div style="height:100%;background:#ffff00;">
 
-## Image
+## Image, Background
 
 <img style="width:50%;float:right;" src="img/640px-Play-of-fireworks-and-night-scenes-in-Hakodate.jpg">
 
@@ -145,6 +146,7 @@ three) if needed.
 
 Image: [Play of fireworks and night scenes in hakodate](http://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Play_of_fireworks_and_night_scenes_in_Hakodate.jpg) Cc-by-sa-3.0,2.5,2.0,1.0
 
+</div>
 !SLIDE
 
 ## Table, CSS
@@ -216,7 +218,6 @@ function decrimentToZero(n) {
 !SLIDE trans-none
 
 ## Page transition animation
-
 (new v1.2)
 
 * The default page-transition animation is a horizontal sliding.
@@ -240,4 +241,3 @@ function decrimentToZero(n) {
 <center>
 Keypressiv is available in [github.com/tos-kamiya/Keypressiv](https://github.com/tos-kamiya/Keypressiv).
 </center>
-

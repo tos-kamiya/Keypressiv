@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/html5reset.css">
         <link rel="stylesheet" href="css/fontsettings.css">
         <link rel="stylesheet" href="css/animation.css">
-        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-2.1.1.min.js"></script>
         <script src="js/flowtype-mod.js"></script>
         <script src="js/jquery.hammer.min.js"></script>
         <script src="js/animation.js"></script>
@@ -54,7 +54,9 @@
             $(function() {
                 brython();
                 resizeElements();
-                $(window).resize(function(){ resizeElements(); });
+                $(window).resize(function(){ 
+                    resizeElements(); 
+                });
                 var hammerTime = $("#bodyp").hammer({ "swipe_velocity": 0.3 });
                 hammerTime.on("swipeleft", function(ev) {
                     ev.gesture.stopDetect();
