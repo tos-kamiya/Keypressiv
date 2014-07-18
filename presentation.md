@@ -50,7 +50,7 @@ open an URL **http://localhost:8000/handout.html**
 <br/>
 (5') To print out slides as it is, save as PDF in the web browser, OR...
 
-!SLIDE trans-vert
+!SLIDE trans-vert-stack
 
 ## How to Use (cont'd)
 
@@ -220,6 +220,7 @@ function decrimentToZero(n) {
 * The default page-transition animation is a horizontal sliding.
 * By specifying "!SLIDE trans-none" in top of a page description, no page-transition animation (like this slide).
 * By specifying "!SLIDE trans-vert" in top of a page description, a vartical sliding is applied.
+* By specifying "!SLIDE trans-vert-stack", the slide appears as if it is put on the previous slide.
 
 !SLIDE
 <br/>

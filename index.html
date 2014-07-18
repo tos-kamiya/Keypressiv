@@ -128,7 +128,7 @@
         </div>
         <script type="text/python">
             from browser import doc, window
-            from slidelib import read_pages, draw_slide, draw_minimap
+            from slidelib import read_pages, draw_slide, draw_minimap, parse_trans
 
             # load presentation
             pages, config_data, page_options = read_pages("presentation.md")
@@ -177,20 +177,11 @@
                 czid, nzid = 'zone%d' % czi, 'zone%d' % nzi
                 draw_slide(doc, nzid, pages[newi], config_data)
                 prettyPrint()
-                a = None
                 if delta == 1:
-                    attrs = page_options[newi]
-                    if "trans-vert" in attrs:
-                        a = "bottom"
-                    elif "trans-none" not in attrs:
-                        a = "right"
-                elif delta == -1:
-                    attrs = page_options[newi + 1]
-                    if "trans-vert" in attrs:
-                        a = "top"
-                    elif "trans-none" not in attrs:
-                        a = "left"
-                set_sliding(nzid, czid, a)
+                    a, s = parse_trans(delta, page_options[newi])
+                else:
+                    a, s = parse_trans(delta, page_options[newi + 1])
+                set_sliding(nzid, czid, a, s)
                 cur_page_index[0] = newi
                 cur_zone_index[0] = nzi
                 setHash(newi + 1)

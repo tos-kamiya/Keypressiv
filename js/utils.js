@@ -1,18 +1,20 @@
-var bindHashchange = function(handler) {
+'use strict';
+
+var bindHashchange = function (handler) {
     $(window).on('hashchange', handler);
 };
 
-var setTitle = function(title) {
+var setTitle = function (title) {
     $(document).attr("title", title);
 };
 
-var getHash = function() {
+var getHash = function () {
     if (location.hash)
         return location.hash.substr(1);
     return null;
 };
 
-var setHash = function(s) {
+var setHash = function (s) {
     location.hash = s;
 };
 
