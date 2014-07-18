@@ -6,9 +6,13 @@
   font-style: normal;
 }
 
+#zone1, #zone0 {
+    background: #fff;
+}
+
 body {
     font-size: 18px;
-    font-family: sans-serif;
+    font-family: "Noto Sans Japanese", "sans-serif";
     line-height: 26px;
 }
 h1,h2,h3,h4,h5,h6,p {
