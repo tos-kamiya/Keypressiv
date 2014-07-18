@@ -27,15 +27,17 @@
          lineRatio : 1.45,
          aspectRatio: 1.33,
          onlyFontResizing: false,
-         scaling   : 1.0
+         scaling   : 1.0,
+         resizeToWindow : false
       }, options),
 
 // Do the magic math
 // =================
       changes = function(el) {
+         var $win = settings.resizeToWindow ? $(window) : $(document);
          var $el = $(el),
-            elah = $(document).height(),
-            elaw = $(document).width();
+            elah = $win.height(),
+            elaw = $win.width();
          var elw = elaw,
              elh = elah;
          if (settings.aspectRatio != null) {

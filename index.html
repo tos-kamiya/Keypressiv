@@ -19,13 +19,15 @@
                 var w = $(window).width();
                 var h = $(window).height();
                 $('body,#bodyp').width(w).height(h);
-                $('#zone0,#zone1').flowtype({ "aspactRatio": aspectRatio });
-                $('.slidefooter-container').flowtype({ "onlyFontResizing": true, "aspactRatio": aspectRatio });
-                
+                var d = { "aspactRatio": aspectRatio, "resizeToWindow": true };
+                $('#zone0,#zone1').flowtype(d);
+                d["onlyFontResizing"] = true;
+                $('.slidefooter-container').flowtype(d);
                 var scaling = 1.0 / columns;
                 var elaw = w - (5 * (columns * 2) + 2 * (columns + 1));
                 $('.minimap-page').css({ "width": elaw * scaling + "px", "height": elaw * scaling / aspectRatio + "px" });
-                $('.minimap-page').flowtype({ "onlyFontResizing": true, "scaling": scaling, "aspectRatio": null });
+                d["aspectRatio"] = null;
+                $('.minimap-page').flowtype(d);
             };
             var changeAspectRatio = function(newRatio) {
                 aspectRatio = newRatio;
@@ -54,8 +56,8 @@
             $(function() {
                 brython();
                 resizeElements();
-                $(window).resize(function(){ 
-                    resizeElements(); 
+                $(window).resize(function() {
+                    resizeElements();
                 });
                 var hammerTime = $("#bodyp").hammer({ "swipe_velocity": 0.3 });
                 hammerTime.on("swipeleft", function(ev) {
@@ -153,7 +155,7 @@
                 except:
                     return None
                 return max(0, min(i - 1, len(pages) - 1))
-            
+
             # get initial page number
             h = getHash()
             cur_page_index = [clip_to_page_index(h) or 0]
@@ -187,7 +189,7 @@
                 cur_page_index[0] = newi
                 cur_zone_index[0] = nzi
                 setHash(newi + 1)
-            
+
             def move_page(delta):
                 goto_page(cur_page_index[0] + delta)
 
@@ -236,16 +238,15 @@
                     switchToSlideMode(cur_page_index)
                 elif h.startswith("m"):
                     switchToMapMode()
-            
+
             def do_hashchange(e):
                 hashchange(getHash())
 
             bindHashchange(do_hashchange)
-            
+
             # make functions accessible from javascript
             window.goto_page = goto_page
             window.move_page = move_page
         </script>
     </body>
 </html>
-
