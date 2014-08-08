@@ -103,3 +103,23 @@ p.listing-indent {
     font-size: 1em;
 }
 
+/* reference: http://css-tricks.com/using-flexbox/ */
+
+.column-container {
+    width: 100%;
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+.column_2 {;
+    width: 48%;
+    margin-right: 1em;
+}
+
+.column_3 {
+    width: 32%;
+    margin-right: 1em;
+}

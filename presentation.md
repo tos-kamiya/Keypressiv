@@ -25,7 +25,7 @@
 * A [Keydown](https://github.com/infews/keydown)-inspired presentation tool.
 * Use [Markdown](http://daringfireball.net/projects/markdown/) and HTML markup to describe slide pages.
 * Fixed aspect ratio. Auto font resizing.
-* Neutral in CSS styles of common elements. No pre-defined themes except for 
+* Neutral in CSS styles of common elements. No pre-defined themes except for
 * An animation on page transition.
 
 !SLIDE
@@ -54,7 +54,7 @@ open an URL **http://localhost:8000/handout.html**
 
 ## How to Use (cont'd)
 
-(5'') To print out slides as it is, 
+(5'') To print out slides as it is,
 
 * Show [printing.html](printing.html), e.g.: open an URL **http://localhost:8000/printing.html**
 
@@ -110,20 +110,18 @@ three) if needed.
 
 ## Two-Column Layout
 
-<table border="0">
-<tr>
-<td width="50%">
+<div class="column-container">
+<div class="column_2">
 ### Left Coumn
 
 * Some long long long long long long long sentence.
-</td>
-<td width="50%">
+</div>
+<div class="column_2">
 ### Right Coumn
 
 * Another long long long long long long long sentence.
-</td>
-</tr>
-</table>
+</div>
+</div>
 
 !SLIDE
 <div style="height:100%;background:#ffff00;">
@@ -155,7 +153,7 @@ Image: [Play of fireworks and night scenes in hakodate](http://ja.wikipedia.org/
 
 <!-- ref: http://stackoverflow.com/questions/4932181/rounded-table-corners-css-only -->
 <style>
-table.roundcorner { 
+table.roundcorner {
 border: 2px solid #ddd;
 border-collapse: separate;
 border-left: 0;
@@ -176,7 +174,7 @@ padding: 5px 4px 6px 4px;
 border-left: 2px solid #ddd;
 }
 table.roundcorner td {
-border-top: 2px solid #ddd;   
+border-top: 2px solid #ddd;
 }
 table.roundcorner thead:first-child tr:first-child th:first-child, table.roundcorner tbody:first-child tr:first-child td:first-child {
 border-radius: 8px 0 0 0;
