@@ -1,12 +1,16 @@
-var $module = (function($B){
+var $module=(function($B){
 
-var __builtins__ = $B.builtins
-for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+var _b_ = $B.builtins
+
+var $s=[]
+for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+eval($s.join(';'))
+//for(var $py_builtin in _b_){eval("var "+$py_builtin+"=_b_[$py_builtin]")}
 
 var $mod = {
 
     __getattr__ : function(attr){
-        if (attr == 'new') {return $hashlib_new;}
+        if (attr == 'new') return $hashlib_new;
         return this[attr]
     },
     md5: function() {return $hashlib_new('md5')},
@@ -57,7 +61,7 @@ function $hashlib_new(alg) {
            $B.CryptoJS.algo.MD5 === undefined) $get_CryptoJS_lib('md5')
        this.hash = $B.CryptoJS.algo.MD5.create()
     } else if (alg == 'sha1') {
-       if ($B.Crypto === undefined || 
+       if ($B.Crypto === undefined ||
            $B.CryptoJS.algo.SHA1 === undefined) $get_CryptoJS_lib('sha1')
        this.hash = $B.CryptoJS.algo.SHA1.create()
     } else if (alg == 'sha224') {
@@ -80,7 +84,7 @@ function $hashlib_new(alg) {
        $raise('AttributeError', 'Invalid hash algorithm:' + alg)
     }
  
-    this.__class__ = __BRYTHON__.$type
+    this.__class__ = $B.$type
     this.__getattr__ = function(attr){return $getattr(this,attr)}
     this.__str__ = function(){return this.hexdigest()}
     this.update = function(msg){this.hash.update(msg)}

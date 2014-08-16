@@ -1,8 +1,10 @@
-var $module = (function($B){
+var $module=(function($B){
 
-    var __builtins__ = $B.builtins
+    var _b_ = $B.builtins
+    var $s=[]
+    for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+    eval($s.join(';'))
 
-    for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
     var JSObject = $B.JSObject
 
     var obj = {__class__:$module,
@@ -16,8 +18,8 @@ var $module = (function($B){
     obj.U = obj.UNICODE = 32
     obj.X = obj.VERBOSE = 64
     obj._is_valid = function(pattern) {
-        if (__BRYTHON__.$options.re=='pyre') return false  //force use of python's re module
-        if (__BRYTHON__.$options.re=='jsre') return true   //force use of brythons re module
+        if ($B.$options.re=='pyre') return false  //force use of python's re module
+        if ($B.$options.re=='jsre') return true   //force use of brythons re module
         // FIXME: Improve
 
         if (!isinstance(pattern, str)) {
@@ -106,22 +108,21 @@ var $module = (function($B){
         return jsmatch
     }
     obj.finditer = function(pattern,string,flags){
-        var $ns=$B.$MakeArgs('re.finditer',arguments,['pattern','string'],[],'args','kw') ,
-            args = $ns['args'] ,
+        var $ns=$B.$MakeArgs('re.finditer',arguments,['pattern','string'],[],'args','kw'),
+            args = $ns['args'],
             _flags = 0;
         if(args.length>0){var flags=args[0]}
         else{var _flags = getattr($ns['kw'], 'get')('flags',0)}
         
         var flags = normflags();
         flags += 'gm'
-        var jsp = new RegExp(pattern,flags) ,
+        var jsp = new RegExp(pattern,flags),
             jsmatch = string.match(jsp);
         if(jsmatch===null){return []}
         
         var _list=[]
-        console.log('jsmatch.length', jsmatch.length)
         for (var j=0; j < jsmatch.length; j++) {
-            var mo = new Object()
+            var mo = {}
             mo._match=jsmatch[j]
             mo.group = function(){
                var res = []
@@ -185,8 +186,8 @@ var $module = (function($B){
         var $ns=$B.$MakeArgs('re.search',arguments,['pattern','repl','string'],[],'args','kw')
         for($var in $ns){eval("var "+$var+"=$ns[$var]")}
         var args = $ns['args']
-        var count = __builtins__.dict.$dict.get($ns['kw'],'count',0)
-        var flags = __builtins__.dict.$dict.get($ns['kw'],'flags','')
+        var count = _b_.dict.$dict.get($ns['kw'],'count',0)
+        var flags = _b_.dict.$dict.get($ns['kw'],'flags','')
         if(args.length>0){var count=args[0]}
         if(args.length>1){var flags=args[1]}
         flags = normflags(flags);

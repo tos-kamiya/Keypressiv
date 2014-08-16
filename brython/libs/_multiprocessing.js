@@ -1,36 +1,32 @@
 // multiprocessing
 var $module = (function($B){
 
-var __builtins__ = $B.builtins
+var _b_ = $B.builtins
+var $s=[]
+for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+eval($s.join(';'))
 
-for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+//for(var $py_builtin in _b_){eval("var "+$py_builtin+"=_b_[$py_builtin]")}
 
-var $ProcessDict = {
-    __class__:$B.$type,
-    __name__:'Process'
-}
+var $ProcessDict = {__class__:$B.$type,__name__:'Process'}
 
 var $convert_args=function(args) {
     var _list=[]
     for(var i=0; i < args.length; i++) {
       var _a=args[i]
       if(isinstance(_a, str)){_list.push("'"+_a+"'")} else {_list.push(_a)} 
-   }
+    }
 
-   return _list.join(',')
+    return _list.join(',')
 }
 
-$ProcessDict.__mro__ = [$ProcessDict, __builtins__.object.$dict]
+$ProcessDict.__mro__ = [$ProcessDict, _b_.object.$dict]
 
-$ProcessDict.__repr__ = function(self){
-    return '<object Process>'
+$ProcessDict.__str__=$ProcessDict.toString=$ProcessDict.__repr__=function(self){
+   return '<object Process>'
 }
 
-$ProcessDict.__str__ = $ProcessDict.toString = $ProcessDict.__repr__
-
-$ProcessDict.is_alive = function(self){
-   return self.$alive
-}
+$ProcessDict.is_alive = function(self){return self.$alive}
 
 $ProcessDict.join = function(self, timeout){
    // need to block until process is complete
@@ -81,8 +77,8 @@ function Process(){
     var $ns=$B.$MakeArgs('Process',arguments,[],[],null,'kw')
     var kw=$ns['kw']
 
-    var target=__builtins__.dict.$dict.get($ns['kw'],'target',None)
-    var args=__builtins__.dict.$dict.get($ns['kw'],'args',tuple())
+    var target=_b_.dict.$dict.get($ns['kw'],'target',None)
+    var args=_b_.dict.$dict.get($ns['kw'],'args',tuple())
 
     var worker = new Worker('/src/web_workers/multiprocessing.js')
 
@@ -102,25 +98,20 @@ Process.__class__ = $B.$factory
 Process.$dict = $ProcessDict
 
 
-var $PoolDict = {
-    __class__:$B.$type,
-    __name__:'Pool'
-}
+var $PoolDict = {__class__:$B.$type,__name__:'Pool'}
 
-$PoolDict.__mro__ = [$PoolDict, __builtins__.object.$dict]
-
-$PoolDict.__repr__ = function(self){
-    return '<object Pool>'
-}
+$PoolDict.__mro__ = [$PoolDict, _b_.object.$dict]
 
 $PoolDict.__enter__ = function(self){}
 $PoolDict.__exit__ = function(self){}
 
-$PoolDict.__str__ = $PoolDict.toString = $PoolDict.__repr__
+$PoolDict.__str__ = $PoolDict.toString = $PoolDict.__repr__=function(self){
+   return '<object Pool>'
+}
 
 $PoolDict.map = function(self){
    var args = []
-   for(var i=1;i<arguments.length;i++){args.push(arguments[i])}
+   for(var i=1;i<arguments.length;i++) args.push(arguments[i])
 
    var $ns=$B.$MakeArgs('Pool.map',args,['func', 'fargs'],[],'args','kw')
    var func=$ns['func']
@@ -197,7 +188,7 @@ $PoolDict.apply_async = function(self){
           arg=getattr(fargs, '__next__')()
        } catch(err) {
           if (err.__name__ == 'StopIteration') {
-             __BRYTHON__.$pop_exc()
+             $B.$pop_exc()
           } else {
              throw err
           }
@@ -228,8 +219,6 @@ $PoolDict.apply_async = function(self){
    return async_result
 }
 
-
-
 function Pool(){
     console.log("pool")
     console.log(arguments)
@@ -237,7 +226,6 @@ function Pool(){
     //var kw=$ns['kw']
 
     var processes=$ns['processes']
-    //var args=__builtins__.dict.$dict.get($ns['kw'],'args',tuple())
 
     if (processes == None) {
        // look to see if we have stored cpu_count in local storage

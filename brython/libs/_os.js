@@ -1,8 +1,8 @@
-var $module = (function($B){
+var $module=(function($B){
 
-    var __builtins__ = $B.builtins
+    var _b_ = $B.builtins
     return {
-        random:function(){return __builtins__.float(Math.random())},
-        randint:function(a,b){return __builtins__.int(Math.floor(Math.random()*(b-a)+a))}
+        random:function(){return _b_.float(Math.random())},
+        randint:function(a,b){return _b_.int(Math.floor(Math.random()*(b-a)+a))}
     }
 })(__BRYTHON__)

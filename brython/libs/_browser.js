@@ -1,15 +1,17 @@
-var $module = {
-    $$alert:__BRYTHON__._alert,
-    confirm: function(message){return __BRYTHON__.JSObject(window.confirm(message))},
+var $module=(function($B) {
+  return {
+    $$alert:$B._alert,
+    confirm: function(message){return $B.JSObject(window.confirm(message))},
     console:{log:function(data){window.console.log(data)}},
-    $$document:__BRYTHON__.$DOMNode(document),
-    doc: __BRYTHON__.$DOMNode(document),   //want to use document instead of doc
-    DOMEvent:__BRYTHON__.DOMEvent,
-    DOMNode:__BRYTHON__.DOMNode,
-    mouseCoords: function(ev){return __BRYTHON__.JSObject($mouseCoords(ev))},
+    $$document:$B.$DOMNode(document),
+    doc: $B.$DOMNode(document),   //want to use document instead of doc
+    DOMEvent:$B.DOMEvent,
+    DOMNode:$B.DOMNode,
+    mouseCoords: function(ev){return $B.JSObject($mouseCoords(ev))},
     prompt: function(message, default_value){
-        return __BRYTHON__.JSObject(window.prompt(message, default_value||''))
+        return $B.JSObject(window.prompt(message, default_value||''))
     },
-    win: __BRYTHON__.win,     //want to use window instead of win
-    $$window: __BRYTHON__.win
-}
+    win: $B.win,
+    $$window: $B.win
+  }
+})(__BRYTHON__)

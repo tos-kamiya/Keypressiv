@@ -25,8 +25,10 @@
                 $('.slidefooter-container').flowtype(d);
                 var scaling = 1.0 / columns;
                 var elaw = w - (5 * (columns * 2) + 2 * (columns + 1));
-                $('.minimap-page').css({ "width": elaw * scaling + "px", "height": elaw * scaling / aspectRatio + "px" });
-                d["aspectRatio"] = null;
+                $('.minimap-page').css({ "width": elaw * scaling + "px",
+                    "height": elaw * scaling / aspectRatio + "px" });
+                d = { "aspactRatio": null, "resizeToWindow": true,
+                    "scaling": scaling, "onlyFontResizing": true };
                 $('.minimap-page').flowtype(d);
             };
             var changeAspectRatio = function(newRatio) {

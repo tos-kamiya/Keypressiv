@@ -539,8 +539,8 @@ def urandom(n):
     """urandom(n) -> str    
     Return n random bytes suitable for cryptographic use."""
     import __random
-    randbytes= [chr(__random.randint(0,256)) for i in range(n)]
-    return ''.join(randbytes)
+    randbytes= [__random.randint(0,255) for i in range(n)]
+    return bytes(randbytes)
 
 def utime(*args,**kw):
     """utime(path, times=None, *, ns=None, dir_fd=None, follow_symlinks=True)    Set the access and modified time of path.

@@ -290,3 +290,5 @@ class RawIOBase:
         pass
 
 BufferedReader = RawIOBase
+
+from _io import *

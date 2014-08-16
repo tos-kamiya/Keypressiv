@@ -1,8 +1,11 @@
 $module = (function($B){
 
-    var __builtins__ = $B.builtins
-    for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
-    var JSObject = $B.JSObject
+    var _b_ = $B.builtins
+    var $s=[]
+    for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+    eval($s.join(';'))
+
+    //for(var $py_builtin in _b_){eval("var "+$py_builtin+"=_b_[$py_builtin]")}
     
     return {
         choice:function(seq){
@@ -16,7 +19,14 @@ $module = (function($B){
             return float(Math.random());
           }
         },
-        randint:function(a,b){return int(Math.floor(Math.random()*(b-a+1)+a))},
+        randint:function(a,b){
+           if (a == undefined) throw _b_.TypeError("randint missing 2 required positional arguments: 'a' and 'b'");
+           if (b == undefined) throw _b_.TypeError("randint missing 1 required positional argument: 'b'");
+
+           if (!(isinstance(a, _b_.int) || isinstance(b, _b_.int))) throw _b_.ValueError("non-integer arg 1 for randrange")
+
+           return int(Math.floor(Math.random()*(b-a+1)+a))
+        },
         randrange:function(start,stop,step){
           if(step === undefined) {
             step=1;
@@ -56,4 +66,3 @@ $module = (function($B){
     }
 
 })(__BRYTHON__)
-
