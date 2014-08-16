@@ -13,7 +13,11 @@ except ImportError:
     from _dummy_thread import allocate_lock as Lock
 
 import io
-from io import (__all__, SEEK_SET, SEEK_CUR, SEEK_END)
+#brython fix me
+#from io import (__all__, SEEK_SET, SEEK_CUR, SEEK_END)
+SEEK_SET=0
+SEEK_CUR=1
+SEEK_END=2
 
 valid_seek_flags = {0, 1, 2}  # Hardwired values
 if hasattr(os, 'SEEK_HOLE') :
@@ -525,7 +529,8 @@ class IOBase(metaclass=abc.ABCMeta):
         for line in lines:
             self.write(line)
 
-io.IOBase.register(IOBase)
+#fix me brython
+#io.IOBase.register(IOBase)
 
 
 class RawIOBase(IOBase):
@@ -588,9 +593,10 @@ class RawIOBase(IOBase):
         """
         self._unsupported("write")
 
-io.RawIOBase.register(RawIOBase)
-from _io import FileIO
-RawIOBase.register(FileIO)
+#io.RawIOBase.register(RawIOBase)
+#fix me brython
+#from _io import FileIO
+#RawIOBase.register(FileIO)
 
 
 class BufferedIOBase(IOBase):
@@ -679,7 +685,8 @@ class BufferedIOBase(IOBase):
         """
         self._unsupported("detach")
 
-io.BufferedIOBase.register(BufferedIOBase)
+#fix me brython
+#io.BufferedIOBase.register(BufferedIOBase)
 
 
 class _BufferedIOMixin(BufferedIOBase):
@@ -779,9 +786,9 @@ class _BufferedIOMixin(BufferedIOBase):
         try:
             name = self.name
         except AttributeError:
-            return "<_pyio.{0}>".format(clsname)
+            return "<_io.{0}>".format(clsname)
         else:
-            return "<_pyio.{0} name={1!r}>".format(clsname, name)
+            return "<_io.{0} name={1!r}>".format(clsname, name)
 
     ### Lower-level APIs ###
 
@@ -1355,7 +1362,8 @@ class TextIOBase(IOBase):
         Subclasses should override."""
         return None
 
-io.TextIOBase.register(TextIOBase)
+#fix me brython
+#io.TextIOBase.register(TextIOBase)
 
 
 class IncrementalNewlineDecoder(codecs.IncrementalDecoder):
@@ -1538,7 +1546,7 @@ class TextIOWrapper(TextIOBase):
     #   - "chars_..." for integer variables that count decoded characters
 
     def __repr__(self):
-        result = "<_pyio.TextIOWrapper"
+        result = "<_io.TextIOWrapper"
         try:
             name = self.name
         except AttributeError:

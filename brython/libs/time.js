@@ -1,12 +1,13 @@
-var $module = (function($B){
+var $module=(function($B){
 
-var __builtins__ = $B.builtins
-for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
-var JSObject = $B.JSObject
+var _b_ = $B.builtins
+var $s=[]
+for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+eval($s.join(';'))
 
+//for(var $py_builtin in _b_){eval("var "+$py_builtin+"=_b_[$py_builtin]")}
 
 return  {
-
     __name__ : 'time',
 
     ctime: function(timestamp){

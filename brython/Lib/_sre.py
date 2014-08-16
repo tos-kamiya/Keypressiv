@@ -188,16 +188,16 @@ class SRE_Pattern:
 
     def finditer(self, string, pos=0, endpos=sys.maxsize):
         """Return a list of all non-overlapping matches of pattern in string."""
-        scanner = self.scanner(string, pos, endpos)
-        ##_list=[]
-        #_m=self.scanner(string, pos, endpos)
-        #_re=SRE_Scanner(self, string, pos, endpos)
-        #_m=_re.search()
-        #while _m:
-        #   _list.append(_m)
-        #   _m=_re.search()
-        #return _list
-        return iter(scanner.search, None)
+        #scanner = self.scanner(string, pos, endpos)
+        _list=[]
+        _m=self.scanner(string, pos, endpos)
+        _re=SRE_Scanner(self, string, pos, endpos)
+        _m=_re.search()
+        while _m:
+           _list.append(_m)
+           _m=_re.search()
+        return _list
+        #return iter(scanner.search, None)
 
     def scanner(self, string, start=0, end=sys.maxsize):
         return SRE_Scanner(self, string, start, end)

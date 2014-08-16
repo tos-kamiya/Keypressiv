@@ -150,6 +150,8 @@ class PrettyPrinter:
 
     def _format(self, object, stream, indent, allowance, context, level):
         level = level + 1
+        import sys
+        sys.stderr.write(str(object))
         objid = _id(object)
         if objid in context:
             stream.write(_recursion(object))

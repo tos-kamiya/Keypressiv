@@ -1,12 +1,14 @@
-var $module = (function($B){
+var $module=(function($B){
 
+var _b_=$B.builtins
 var _mod = {}
+
 $ModuleFinderDict = {__class__:$B.$type,__name__:'ModuleFinder'}
-$ModuleFinderDict.__mro__ = [$ModuleFinderDict,$B.builtins.object.$dict]
+$ModuleFinderDict.__mro__ = [$ModuleFinderDict,_b_.object.$dict]
 
 $ModuleFinderDict.run_script = function(self, pathname){
     // pathname is the url of a Python script
-    var py_src = $B.builtins.$open(pathname).read()
+    var py_src = _b_.$open(pathname).read()
     // transform into internal Brython tree structure
     var root = $B.py2js(py_src)
     // walk the tree to find occurences of imports
@@ -38,8 +40,7 @@ $ModuleFinderDict.run_script = function(self, pathname){
     self.modules = walk(root)
 }
 
-_mod.ModuleFinder = function(){
-    return {__class__:$ModuleFinderDict}
+_mod.ModuleFinder = function(){return {__class__:$ModuleFinderDict}
 }
 _mod.ModuleFinder.$dict = $ModuleFinderDict
 _mod.ModuleFinder.__class__ = $B.$factory

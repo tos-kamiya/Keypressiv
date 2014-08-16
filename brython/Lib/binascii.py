@@ -46,9 +46,9 @@ def a2b_uu(s):
     result = result[:length]
     if len(result) < length:
         result += ((length - len(result)) * '\x00')
-    return result
+    return bytes(result, __BRYTHON__.charset)
 
-                               
+
 def b2a_uu(s):
     length = len(s)
     if length > 45:
@@ -264,7 +264,7 @@ def a2b_qp(s, header=False):
         else:
             odata.append(s[inp])
             inp += 1
-    return ''.join(odata)
+    return bytes(''.join(odata), __BRYTHON__.charset)
 
 def b2a_qp(data, quotetabs=False, istext=True, header=False):
     """quotetabs=True means that tab and space characters are always
@@ -464,6 +464,8 @@ def a2b_hqx(s):
     except Error:
         raise
     return (''.join(result), done)
+    # should this return a bytes object?
+    #return (bytes(''.join(result), __BRYTHON__.charset), done)
 
 def b2a_hqx(s):
     result =[]
@@ -720,7 +722,7 @@ def a2b_hex(t):
         if a < 0 or b < 0:
             raise TypeError('Non-hexadecimal digit found')
         result.append(chr((a << 4) + b))
-    return ''.join(result)
+    return bytes(''.join(result), __BRYTHON__.charset)
     
 
 unhexlify = a2b_hex

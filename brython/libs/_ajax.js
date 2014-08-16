@@ -1,23 +1,23 @@
 // ajax
 var $module = (function($B){
 
-var __builtins__ = $B.builtins
+var _b_ = $B.builtins
 
-for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+var $s=[]
+for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+eval($s.join(';'))
+//for(var $py_builtin in _b_){eval("var "+$py_builtin+"=_b_[$py_builtin]")}
 
-var $XMLHttpDict = {
-    __class__:$B.$type,
-    __name__:'XMLHttp'
-}
+var $XMLHttpDict = {__class__:$B.$type,__name__:'XMLHttp'}
 
 $XMLHttpDict.__getattribute__ = function(self,attr){
     if(['headers','text','xml'].indexOf(attr)>-1){
         return $XMLHttpDict[attr](self)
     }
-    return __builtins__.object.$dict.__getattribute__(self,attr)
+    return _b_.object.$dict.__getattribute__(self,attr)
 }
 
-$XMLHttpDict.__mro__ = [$XMLHttpDict, __builtins__.object.$dict]
+$XMLHttpDict.__mro__ = [$XMLHttpDict, _b_.object.$dict]
 
 $XMLHttpDict.__repr__ = function(self){return '<object XMLHttp>'}
 
@@ -36,16 +36,11 @@ $XMLHttpDict.get_header = function(){
     return function(header){ return reqobj.getResponseHeader(header) }
 }
 
-var $AjaxDict = {
-    __class__:$B.$type,
-    __name__:'ajax'
-}
+var $AjaxDict = {__class__:$B.$type,__name__:'ajax'}
 
-$AjaxDict.__mro__ = [$AjaxDict, __builtins__.object.$dict]
+$AjaxDict.__mro__ = [$AjaxDict, _b_.object.$dict]
 
-$AjaxDict.__repr__ = function(self){
-    return '<object Ajax>'
-}
+$AjaxDict.__repr__ = function(self){return '<object Ajax>'}
 
 $AjaxDict.__str__ = $AjaxDict.toString = $AjaxDict.__repr__
 
@@ -70,7 +65,7 @@ $AjaxDict.send = function(self,params){
         }
         res = res.substr(0,res.length-1)
     }else{
-        throw TypeError("send() argument must be string or dictonary, not '"+str(params.__class__)+"'")
+        throw _b_.TypeError("send() argument must be string or dictonary, not '"+str(params.__class__)+"'")
     }
     self.$xmlhttp.send(res)
 }

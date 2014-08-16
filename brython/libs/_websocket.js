@@ -1,8 +1,6 @@
 // websocket
 var $module = (function($B){
 
-    var __builtins__ = $B.builtins
-    
     var $WebSocketDict = {
         __class__ :$B.$type,
         __name__:'WebSocket'
@@ -20,7 +18,7 @@ var $module = (function($B){
         self.$ws.close()
     }
     
-    $WebSocketDict.__mro__ = [$WebSocketDict,__builtins__.object.$dict]
+    $WebSocketDict.__mro__ = [$WebSocketDict,$B.builtins.object.$dict]
     
     function websocket(host){
         var $socket = new WebSocket(host);
@@ -37,4 +35,3 @@ var $module = (function($B){
     return {websocket:websocket}
 
 })(__BRYTHON__)
-    

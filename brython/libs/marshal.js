@@ -1,7 +1,11 @@
 var $module = (function($B){
 
-var __builtins__ = $B.builtins
-for(var $py_builtin in __builtins__){eval("var "+$py_builtin+"=__builtins__[$py_builtin]")}
+var _b_ = $B.builtins
+var $s=[]
+for(var $b in _b_) $s.push('var ' + $b +'=_b_["'+$b+'"]')
+eval($s.join(';'))
+
+//for(var $py_builtin in _b_) eval("var "+$py_builtin+"=_b_[$py_builtin]")
 
 function _py(obj){
     if(obj===null){return None}
@@ -32,30 +36,29 @@ function _py(obj){
 }
 function _js(obj){
     // obj is a Python object
-    if (isinstance(obj,[int,str])){return obj}
-    else if(obj===None){return null}
-    else if(obj===True){return true}
-    else if(obj===False){return false}
-    else if(isinstance(obj,float)){return obj.value}
-    else if(isinstance(obj,[list,tuple])){
+    if (isinstance(obj,[int,str])) return obj
+    if(obj===None) return null
+    if(obj===True) return true
+    if(obj===False) return false
+    if(isinstance(obj,float)) return obj.value
+    if(isinstance(obj,[list,tuple])){
         var res = []
         for(var i=0;i<obj.length;i++){res.push(_js(obj[i]))}
         return res
-    }else if(isinstance(obj,dict)){
+    }
+    if(isinstance(obj,dict)){
         var res = new Object()
         for(var i=0;i<obj.$keys.length;i++){
             res[_js(obj.$keys[i])]=_js(obj.$values[i])
         }
         return res
-    }else{
-        throw TypeError(str(obj)+' is not JSON serializable')
     }
+
+    throw TypeError(str(obj)+' is not JSON serializable')
 }
 
 return  {
-
     loads : function(json_obj){return _py(JSON.parse(json_obj))},
-
     dumps : function(obj){return JSON.stringify(_js(obj))},
 }
 
